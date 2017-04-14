@@ -1,6 +1,6 @@
 # Dapper.Compose
 
-Dapper is a gret tool, but it carries an implicit limitation of stringly queries:
+Dapper is a great tool, but it carries an implicit limitation of stringly queries:
 we have to write lots of small, easily testable queries so we can validate them
 against the database. This unfortunately ends up incurring many round trips,
 because there's no straightforward way to combine small queries into larger queries.
