@@ -1,13 +1,9 @@
 # Dapper.Compose
 
-Dapper is neat, but it carries an implicit limitation of stringly queries: we
-have to write lots of small, easily testable queries. This unfortunately ends
-up incurring many round trips to the database.
-
-If it were instead possible to reify Dapper queries as first class values, and
-it were relatively safe to combine them without too much boilerplate, then it
-would be possible to write small, testable queries and compose them into larger
-more efficient queries, all in a single roundtrip.
+Dapper is a gret tool, but it carries an implicit limitation of stringly queries:
+we have to write lots of small, easily testable queries so we can validate them
+against the database. This unfortunately ends up incurring many round trips,
+because there's no straightforward way to combine small queries into larger queries.
 
 This is the purpose of Dapper.Compose. Suppose we start with the Northwind
 database, and we want a simple dynamic web page listing the orders an employee
@@ -59,6 +55,9 @@ like so:
 
 The only caveat is that you still have to ensure you're using the correct
 parameter names, but this is no worse than ordinary Dapper.
+
+This provides a simple framework to incrementally build up your application,
+where you can easily reuse queries while minimizing database rountrips.
 
 # Future Work
 
