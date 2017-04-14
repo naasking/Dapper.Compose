@@ -22,7 +22,7 @@ is managing. Using Dapper.Compose, we might write it like so:
 		// the combined query
 		public static readonly Query<EmployeeOrders> GetEmployeeOrdersByEmployeeId =
 			Query.Combine(GetEmployeeById, GetOrdersByEmployeeId,
-						 (e, o) => new EmployeeOrders { Employee = e, Orders = o.ToList() });
+			             (e, o) => new EmployeeOrders { Employee = e, Orders = o.ToList() });
 	}
 	
     public class Employee
