@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Compose", "Dapper.Compose\Dapper.Compose.csproj", "{C3269FE9-DA98-4665-88AA-D7A57DB37DA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComposeTests", "ComposeTests\ComposeTests.csproj", "{C73FA6A2-5481-47C0-8FDC-EC481D1FACEA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3269FE9-DA98-4665-88AA-D7A57DB37DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3269FE9-DA98-4665-88AA-D7A57DB37DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3269FE9-DA98-4665-88AA-D7A57DB37DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3269FE9-DA98-4665-88AA-D7A57DB37DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C73FA6A2-5481-47C0-8FDC-EC481D1FACEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C73FA6A2-5481-47C0-8FDC-EC481D1FACEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C73FA6A2-5481-47C0-8FDC-EC481D1FACEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C73FA6A2-5481-47C0-8FDC-EC481D1FACEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

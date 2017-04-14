@@ -1,0 +1,34 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<# var count = 16; #>
+using System;
+
+namespace Dapper.Compose
+{
+    public static partial class Query
+    {
+<# for (var i = 1; i < count; ++i) { #>
+        /// <summary>
+        /// Combine <#=i#> subqueries into a multiquery.
+        /// </summary>
+        /// <param name="selector">Build the return value for the set of subqueries.</param>
+        /// <typeparam name="T0">Return type of query <paramref name="q0" />.</typeparam>
+        /// <param name="q0">Query #0 in the multiquery.</param>
+<# for (int j = 1; j <= i; ++j) { #>
+        /// <typeparam name="T<#=j#>">Return type of <paramref name="q<#=j#>" />.</typeparam>
+        /// <param name="q<#=j#>">Query #<#=j#> in the multiquery.</param>
+<# } #>
+        public static Query<TResult> Combine<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult>(Query<T0> q0<# for (int j = 1; j <= i; ++j){#>, Query<T<#=j#>> q<#=j#><# } #>, Func<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult> selector)
+        {
+            return new Query<TResult>(
+				x => selector(q0.Read(x)<# for (int j = 1; j <= i; ++j){#>, q<#=j#>.Read(x)<# } #>),
+				q0.Sql <# for (int j = 1; j <= i; ++j){#> + "\r\n" + q<#=j#>.Sql<# } #>);
+        }
+
+<# } #>
+	}
+}
