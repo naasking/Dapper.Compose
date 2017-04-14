@@ -37,7 +37,6 @@ namespace Dapper.Compose
         /// </summary>
         /// <param name="read">The materializing function.</param>
         /// <param name="sql">A formatted SQL query.</param>
-        /// <param name="parameters">The SQL query parameters.</param>
         public Query(Func<SqlMapper.GridReader, T> read, string sql) : this()
         {
             Sql = sql;
@@ -58,7 +57,7 @@ namespace Dapper.Compose
         /// Execute this query.
         /// </summary>
         /// <param name="db">The database connection.</param>
-        /// <param name="parameters">The query parameters.</param>
+        /// <param name="param">The query parameters.</param>
         /// <param name="transaction">The transaction.</param>
         /// <param name="commandTimeout">The timeout to apply.</param>
         /// <param name="commandType">The command type.</param>
@@ -69,10 +68,29 @@ namespace Dapper.Compose
                 return Read(results);
         }
 
+        /// <summary>
+        /// The materializer for a single result.
+        /// </summary>
         public static readonly Func<SqlMapper.GridReader, T> Single = Query.Reader<T>("ReadSingle");
+
+        /// <summary>
+        /// The materializer for a single optional result.
+        /// </summary>
         public static readonly Func<SqlMapper.GridReader, T> SingleOrDefault = Query.Reader<T>("ReadSingleOrDefault");
+
+        /// <summary>
+        /// The materializer for the first result.
+        /// </summary>
         public static readonly Func<SqlMapper.GridReader, T> First = Query.Reader<T>("ReadFirst");
+
+        /// <summary>
+        /// The materializer for the first optional result.
+        /// </summary>
         public static readonly Func<SqlMapper.GridReader, T> FirstOrDefault = Query.Reader<T>("ReadFirstOrDefault");
+
+        /// <summary>
+        /// The materializer for a list of results.
+        /// </summary>
         // passing buffered = true means the result is already a list
         public static readonly Func<SqlMapper.GridReader, IEnumerable<T>> List = x => x.Read<T>(true) as List<T>;
     }

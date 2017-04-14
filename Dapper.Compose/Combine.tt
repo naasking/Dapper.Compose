@@ -22,6 +22,8 @@ namespace Dapper.Compose
         /// <typeparam name="T<#=j#>">Return type of <paramref name="q<#=j#>" />.</typeparam>
         /// <param name="q<#=j#>">Query #<#=j#> in the multiquery.</param>
 <# } #>
+        /// <typeparam name="TResult">The final return.</typeparam>
+        /// <returns>A value constructed from the various subqueries.</returns>
         public static Query<TResult> Combine<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult>(Query<T0> q0<# for (int j = 1; j <= i; ++j){#>, Query<T<#=j#>> q<#=j#><# } #>, Func<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult> selector)
         {
             return new Query<TResult>(
