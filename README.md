@@ -20,12 +20,13 @@ orders an employee is managing. Using Dapper.Compose, we might write it like so:
 			@"select EmployeeID, FirstName, LastName from Employees where EmployeeId = @employeeID");
 
 		// get the list of orders an employee is managing
-        public static readonly Query<IEnumerable<Order>> GetOrdersByEmployeeId =
-			Query.List<Order>("select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
+        public static readonly Query<IEnumerable<Order>> GetOrdersByEmployeeId = Query.List<Order>(
+			"select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
 
 		// 
         public static readonly Query<EmployeeOrders> GetEmployeeOrdersByEmployeeId =
-			Query.Combine(GetEmployeeById, GetOrdersByEmployeeId, (e, o) => new EmployeeOrders { Employee = e, Orders = o.ToList() });
+			Query.Combine(GetEmployeeById, GetOrdersByEmployeeId,
+						 (e, o) => new EmployeeOrders { Employee = e, Orders = o.ToList() });
 	}
 	
     public class Employee
