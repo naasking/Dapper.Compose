@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Data;
 
@@ -107,8 +108,9 @@ namespace Dapper.Compose
         {
             // construct an open instance delegate on Grid Reader
             var method = typeof(SqlMapper.GridReader)
-                         .GetMethods()
-                         .Single(x => x.Name.Equals(name, StringComparison.Ordinal) && x.IsGenericMethodDefinition)
+                         .GetTypeInfo()
+                         .GetDeclaredMethods(name)
+                         .Single(x => x.IsGenericMethodDefinition)
                          .MakeGenericMethod(typeof(T));
             return (Func<SqlMapper.GridReader, TReturn>)method.CreateDelegate(typeof(Func<SqlMapper.GridReader, TReturn>), null);
         }
