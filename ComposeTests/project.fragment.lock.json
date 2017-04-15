@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "exports": {
+    "Dapper.Compose/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.3",
+      "compile": {
+        "bin/Debug/Dapper.Compose.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Dapper.Compose.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Dapper.Compose.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}
