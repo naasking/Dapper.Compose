@@ -30,7 +30,7 @@ namespace ComposeTests
         // an example of reified queries and their composition
         static readonly Query<Employee> getEmployee = Query.Single<Employee>(@"select EmployeeID, FirstName, LastName from Employees where EmployeeId = @employeeID");
         static readonly Query<List<Order>> getEmployeeOrders = Query.List<Order>(@"select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
-        static readonly Query<EmployeeOrders> getEmployeeAndOrders = Query.Combine(getEmployee, getEmployeeOrders, (e, o) => new EmployeeOrders { Employee = e, Orders = o.ToList() });
+        static readonly Query<EmployeeOrders> getEmployeeAndOrders = Query.Combine(getEmployee, getEmployeeOrders, (e, o) => new EmployeeOrders { Employee = e, Orders = o });
 
         static void TestPlainDapper(IDbConnection db)
         {

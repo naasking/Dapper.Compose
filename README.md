@@ -16,7 +16,7 @@ is managing. Using Dapper.Compose, we might write it like so:
 			@"select EmployeeID, FirstName, LastName from Employees where EmployeeId = @employeeID");
 
 		// get the list of orders an employee is managing
-		public static readonly Query<IEnumerable<Order>> GetOrdersByEmployeeId = Query.List<Order>(
+		public static readonly Query<List<Order>> GetOrdersByEmployeeId = Query.List<Order>(
 			"select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
 
 		// the combined query
