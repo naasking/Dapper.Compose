@@ -86,12 +86,12 @@ namespace Dapper.Compose
             using (var results = await db.QueryMultipleAsync(Sql, param, transaction, commandTimeout, commandType))
                 return await ReadAsync(results);
         }
-        
+
         internal static readonly Func<SqlMapper.GridReader, T> Single = Query.Reader<T, T>(nameof(SqlMapper.GridReader.ReadSingle));
         internal static readonly Func<SqlMapper.GridReader, Task<T>> SingleAsync = Query.Reader<T, Task<T>>(nameof(SqlMapper.GridReader.ReadSingleAsync));
         internal static readonly Func<SqlMapper.GridReader, T> SingleOrDefault = Query.Reader<T, T>(nameof(SqlMapper.GridReader.ReadSingleOrDefault));
         internal static readonly Func<SqlMapper.GridReader, Task<T>> SingleOrDefaultAsync = Query.Reader<T, Task<T>>(nameof(SqlMapper.GridReader.ReadSingleOrDefaultAsync));
-        internal static readonly Func<SqlMapper.GridReader, T> First = Query.Reader<T, T>("ReadFirst");
+        internal static readonly Func<SqlMapper.GridReader, T> First = Query.Reader<T, T>(nameof(SqlMapper.GridReader.ReadFirst));
         internal static readonly Func<SqlMapper.GridReader, Task<T>> FirstAsync = Query.Reader<T, Task<T>>(nameof(SqlMapper.GridReader.ReadFirstAsync));
         internal static readonly Func<SqlMapper.GridReader, T> FirstOrDefault = Query.Reader<T, T>(nameof(SqlMapper.GridReader.ReadFirstOrDefault));
         internal static readonly Func<SqlMapper.GridReader, Task<T>> FirstOrDefaultAsync = Query.Reader<T, Task<T>>(nameof(SqlMapper.GridReader.ReadFirstOrDefaultAsync));
@@ -126,7 +126,7 @@ namespace Dapper.Compose
         {
             return new Query<T>(Query<T>.Single, Query<T>.SingleAsync, sql, parameters);
         }
-        
+
         /// <summary>
         /// Create a query possibly returning a single.
         /// </summary>
