@@ -18,6 +18,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql);
         }
 
@@ -37,6 +38,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql);
         }
 
@@ -58,6 +60,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql);
         }
 
@@ -81,6 +84,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql);
         }
 
@@ -106,6 +110,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql);
         }
 
@@ -133,6 +138,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql);
         }
 
@@ -162,6 +168,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql);
         }
 
@@ -193,6 +200,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql);
         }
 
@@ -226,6 +234,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql);
         }
 
@@ -261,6 +270,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql);
         }
 
@@ -298,6 +308,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql);
         }
 
@@ -337,6 +348,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql);
         }
 
@@ -378,6 +390,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql);
         }
 
@@ -421,6 +434,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql);
         }
 
@@ -466,6 +480,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x)),
+				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql);
         }
 

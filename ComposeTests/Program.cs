@@ -20,6 +20,11 @@ namespace ComposeTests
 
             TestPlainDapper(db);
             TestCombinedQueries(db);
+
+            var t0 = TestPlainDapperAsync(db);
+            t0.Wait();
+            var t1 = TestCombinedQueriesAsync(db);
+            t1.Wait();
         }
 
         // an example of reified queries and their composition
@@ -37,6 +42,19 @@ namespace ComposeTests
         static void TestCombinedQueries(IDbConnection db)
         {
             var janet = getEmployeeAndOrders.Execute(db, new { employeeId = 3 });
+            CheckResults(janet.Employee, janet.Orders);
+        }
+
+        static async Task TestPlainDapperAsync(IDbConnection db)
+        {
+            var janet = await getEmployee.ExecuteAsync(db, new { employeeId = 3 });
+            var janetsOrders = await getEmployeeOrders.ExecuteAsync(db, new { employeeId = 3 });
+            CheckResults(janet, janetsOrders);
+        }
+
+        static async Task TestCombinedQueriesAsync(IDbConnection db)
+        {
+            var janet = await getEmployeeAndOrders.ExecuteAsync(db, new { employeeId = 3 });
             CheckResults(janet.Employee, janet.Orders);
         }
 

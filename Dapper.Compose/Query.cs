@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,22 +26,15 @@ namespace Dapper.Compose
         /// Construct a query.
         /// </summary>
         /// <param name="read">The materializing function.</param>
-        /// <param name="sql">A formatted SQL query.</param>
+        /// <param name="readAsync">The async materializing function.</param>
+        /// <param name="sqlFormat">A formatted SQL query.</param>
         /// <param name="parameters">The SQL query parameters.</param>
-        public Query(Func<SqlMapper.GridReader, T> read, string sql, params object[] parameters)
-            : this(read, string.Format(sql, parameters))
+        public Query(Func<SqlMapper.GridReader, T> read, Func<SqlMapper.GridReader, Task<T>> readAsync, string sqlFormat, params object[] parameters)
+            : this()
         {
-        }
-
-        /// <summary>
-        /// Construct a query.
-        /// </summary>
-        /// <param name="read">The materializing function.</param>
-        /// <param name="sql">A formatted SQL query.</param>
-        public Query(Func<SqlMapper.GridReader, T> read, string sql) : this()
-        {
-            Sql = sql;
+            Sql = string.Format(sqlFormat, parameters);
             Read = read;
+            ReadAsync = readAsync;
         }
 
         /// <summary>
@@ -52,6 +46,11 @@ namespace Dapper.Compose
         /// The function used to materialize the result from the reader.
         /// </summary>
         public Func<SqlMapper.GridReader, T> Read { get; private set; }
+
+        /// <summary>
+        /// The function used to asynchronously materialize the result from the reader.
+        /// </summary>
+        public Func<SqlMapper.GridReader, Task<T>> ReadAsync { get; private set; }
 
         /// <summary>
         /// Execute this query.
@@ -69,30 +68,71 @@ namespace Dapper.Compose
         }
 
         /// <summary>
+        /// Asynchronously execute this query.
+        /// </summary>
+        /// <param name="db">The database connection.</param>
+        /// <param name="param">The query parameters.</param>
+        /// <param name="transaction">The transaction.</param>
+        /// <param name="commandTimeout">The timeout to apply.</param>
+        /// <param name="commandType">The command type.</param>
+        /// <returns>The value resulting from executing this query against the database.</returns>
+        public async Task<T> ExecuteAsync(IDbConnection db, object param = null, IDbTransaction transaction = null, int? commandTimeout = default(int?), CommandType? commandType = default(CommandType?))
+        {
+            using (var results = await db.QueryMultipleAsync(Sql, param, transaction, commandTimeout, commandType))
+                return await ReadAsync(results);
+        }
+
+        /// <summary>
         /// The materializer for a single result.
         /// </summary>
-        public static readonly Func<SqlMapper.GridReader, T> Single = Query.Reader<T>("ReadSingle");
+        public static readonly Func<SqlMapper.GridReader, T> Single = Query.Reader<T, T>("ReadSingle");
+
+        /// <summary>
+        /// The materializer for a single result.
+        /// </summary>
+        public static readonly Func<SqlMapper.GridReader, Task<T>> SingleAsync = Query.Reader<T, Task<T>>("ReadSingleAsync");
 
         /// <summary>
         /// The materializer for a single optional result.
         /// </summary>
-        public static readonly Func<SqlMapper.GridReader, T> SingleOrDefault = Query.Reader<T>("ReadSingleOrDefault");
+        public static readonly Func<SqlMapper.GridReader, T> SingleOrDefault = Query.Reader<T, T>("ReadSingleOrDefault");
+
+        /// <summary>
+        /// The materializer for a single optional result.
+        /// </summary>
+        public static readonly Func<SqlMapper.GridReader, Task<T>> SingleOrDefaultAsync = Query.Reader<T, Task<T>>("ReadSingleOrDefaultAsync");
 
         /// <summary>
         /// The materializer for the first result.
         /// </summary>
-        public static readonly Func<SqlMapper.GridReader, T> First = Query.Reader<T>("ReadFirst");
+        public static readonly Func<SqlMapper.GridReader, T> First = Query.Reader<T, T>("ReadFirst");
+
+        /// <summary>
+        /// The materializer for the first result.
+        /// </summary>
+        public static readonly Func<SqlMapper.GridReader, Task<T>> FirstAsync = Query.Reader<T, Task<T>>("ReadFirstAsync");
 
         /// <summary>
         /// The materializer for the first optional result.
         /// </summary>
-        public static readonly Func<SqlMapper.GridReader, T> FirstOrDefault = Query.Reader<T>("ReadFirstOrDefault");
+        public static readonly Func<SqlMapper.GridReader, T> FirstOrDefault = Query.Reader<T, T>("ReadFirstOrDefault");
+
+        /// <summary>
+        /// The materializer for the first optional result.
+        /// </summary>
+        public static readonly Func<SqlMapper.GridReader, Task<T>> FirstOrDefaultAsync = Query.Reader<T, Task<T>>("ReadFirstOrDefaultAsync");
 
         /// <summary>
         /// The materializer for a list of results.
         /// </summary>
         // passing buffered = true means the result is already a list
         public static readonly Func<SqlMapper.GridReader, IEnumerable<T>> List = x => x.Read<T>(true) as List<T>;
+
+        /// <summary>
+        /// The materializer for a list of results.
+        /// </summary>
+        // passing buffered = true means the result is already a list
+        public static readonly Func<SqlMapper.GridReader, Task<IEnumerable<T>>> ListAsync = async x => await x.ReadAsync<T>(true) as List<T>;
     }
 
     /// <summary>
@@ -100,16 +140,16 @@ namespace Dapper.Compose
     /// </summary>
     public static partial class Query
     {
-        internal static Func<SqlMapper.GridReader, T> Reader<T>(string name, params Type[] argTypes)
+        internal static Func<SqlMapper.GridReader, TReturn> Reader<T, TReturn>(string name, params Type[] argTypes)
         {
             // construct an open instance delegate on Grid Reader
             var method = typeof(SqlMapper.GridReader)
                          .GetMethods()
                          .Single(x => x.Name.Equals(name, StringComparison.Ordinal) && x.IsGenericMethodDefinition)
                          .MakeGenericMethod(typeof(T));
-            return (Func<SqlMapper.GridReader, T>)Delegate.CreateDelegate(typeof(Func<SqlMapper.GridReader, T>), null, method);
+            return (Func<SqlMapper.GridReader, TReturn>)Delegate.CreateDelegate(typeof(Func<SqlMapper.GridReader, TReturn>), null, method);
         }
-        
+
         /// <summary>
         /// Create a query returning a single value.
         /// </summary>
@@ -119,9 +159,9 @@ namespace Dapper.Compose
         /// <returns></returns>
         public static Query<T> Single<T>(string sql, params object[] parameters)
         {
-            return new Query<T>(Query<T>.Single, sql, parameters);
+            return new Query<T>(Query<T>.Single, Query<T>.SingleAsync, sql, parameters);
         }
-
+        
         /// <summary>
         /// Create a query possibly returning a single.
         /// </summary>
@@ -131,7 +171,7 @@ namespace Dapper.Compose
         /// <returns></returns>
         public static Query<T> SingleOrDefault<T>(string sql, params object[] parameters)
         {
-            return new Query<T>(Query<T>.SingleOrDefault, sql, parameters);
+            return new Query<T>(Query<T>.SingleOrDefault, Query<T>.SingleOrDefaultAsync, sql, parameters);
         }
 
         /// <summary>
@@ -143,7 +183,7 @@ namespace Dapper.Compose
         /// <returns></returns>
         public static Query<T> First<T>(string sql, params object[] parameters)
         {
-            return new Query<T>(Query<T>.First, sql, parameters);
+            return new Query<T>(Query<T>.First, Query<T>.FirstOrDefaultAsync, sql, parameters);
         }
 
         /// <summary>
@@ -155,7 +195,7 @@ namespace Dapper.Compose
         /// <returns></returns>
         public static Query<T> FirstOrDefault<T>(string sql, params object[] parameters)
         {
-            return new Query<T>(Query<T>.FirstOrDefault, sql, parameters);
+            return new Query<T>(Query<T>.FirstOrDefault, Query<T>.FirstOrDefaultAsync, sql, parameters);
         }
 
         /// <summary>
@@ -167,7 +207,7 @@ namespace Dapper.Compose
         /// <returns></returns>
         public static Query<IEnumerable<T>> List<T>(string sql, params object[] parameters)
         {
-            return new Query<IEnumerable<T>>(Query<T>.List, sql, parameters);
+            return new Query<IEnumerable<T>>(Query<T>.List, Query<T>.ListAsync, sql, parameters);
         }
     }
 }

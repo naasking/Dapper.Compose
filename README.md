@@ -61,7 +61,6 @@ where you can easily reuse queries while minimizing database rountrips.
 
 # Future Work
 
- * Async queries -- this will probably require a QueryAsync<T>
  * Associations aren't supported -- this one might be tricky!
  * Automatic testing: Query constructors could accept a parameter name and a
    sample value. Writing an automatic query validation tool then becomes

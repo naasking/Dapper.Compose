@@ -28,6 +28,7 @@ namespace Dapper.Compose
         {
             return new Query<TResult>(
 				x => selector(q0.Read(x)<# for (int j = 1; j <= i; ++j){#>, q<#=j#>.Read(x)<# } #>),
+				async x => selector(await q0.ReadAsync(x)<# for (int j = 1; j <= i; ++j){#>, await q<#=j#>.ReadAsync(x)<# } #>),
 				q0.Sql <# for (int j = 1; j <= i; ++j){#> + "\r\n" + q<#=j#>.Sql<# } #>);
         }
 
