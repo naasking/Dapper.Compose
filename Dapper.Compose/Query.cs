@@ -32,6 +32,10 @@ namespace Dapper.Compose
         public Query(Func<SqlMapper.GridReader, T> read, Func<SqlMapper.GridReader, Task<T>> readAsync, string sqlFormat, params object[] parameters)
             : this()
         {
+            //FIXME: this method of composing async queries isn't quite ideal, because building a multiquery
+            //from another multiquery would execute a sync selector in the middle of an async computation. I
+            //could circumvent this by requiring either a second async selector, or making the selector itself
+            //async and synchronizing it explicitly for sync query execution, thus incurring overhead.
             Sql = string.Format(sqlFormat, parameters);
             Read = read;
             ReadAsync = readAsync;
@@ -126,13 +130,13 @@ namespace Dapper.Compose
         /// The materializer for a list of results.
         /// </summary>
         // passing buffered = true means the result is already a list
-        public static readonly Func<SqlMapper.GridReader, IEnumerable<T>> List = x => x.Read<T>(true) as List<T>;
+        public static readonly Func<SqlMapper.GridReader, List<T>> List = x => x.Read<T>(true) as List<T>;
 
         /// <summary>
         /// The materializer for a list of results.
         /// </summary>
         // passing buffered = true means the result is already a list
-        public static readonly Func<SqlMapper.GridReader, Task<IEnumerable<T>>> ListAsync = async x => await x.ReadAsync<T>(true) as List<T>;
+        public static readonly Func<SqlMapper.GridReader, Task<List<T>>> ListAsync = async x => await x.ReadAsync<T>(true) as List<T>;
     }
 
     /// <summary>
@@ -205,9 +209,9 @@ namespace Dapper.Compose
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static Query<IEnumerable<T>> List<T>(string sql, params object[] parameters)
+        public static Query<List<T>> List<T>(string sql, params object[] parameters)
         {
-            return new Query<IEnumerable<T>>(Query<T>.List, Query<T>.ListAsync, sql, parameters);
+            return new Query<List<T>>(Query<T>.List, Query<T>.ListAsync, sql, parameters);
         }
     }
 }
