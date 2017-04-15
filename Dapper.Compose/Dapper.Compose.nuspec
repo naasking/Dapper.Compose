@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/naasking/Dapper.Compose/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/naasking/Dapper.Compose/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Dapper orm sql micro-orm</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>
