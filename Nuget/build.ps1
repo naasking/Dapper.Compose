@@ -1,0 +1,1 @@
+./nuget pack ../Dapper.Compose/Dapper.Compose.csproj -properties Configuration=Release
