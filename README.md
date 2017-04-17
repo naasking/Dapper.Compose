@@ -116,6 +116,27 @@ Shout out to [QueryFirst](https://github.com/bbsimonbb/query-first) for inspirin
 this idea. That project will be a promising solution once it develops a
 little more.
 
+# Validating Queries in Code
+
+Aside from the above query validation, you can also bind default query
+parameter values via attributes. So given a static query class like:
+
+	public static class Queries
+	{
+	    // individual query to obtain an employee
+		[QueryParam(nameof(Employee.EmployeeID), 3)]
+	    public static readonly Query<Employee> GetEmployeeById = Query.Single<Employee>(
+	        Query.Load<Employee>("ProjectName.Queries.GetEmployee.sql"));
+        ...
+    }
+
+You can run all static members of a class bound like this via single call:
+
+    Query.Validate<Queries>(dbConnection);
+
+This is useful for queries that accept types that are awkward to express in
+SQL, like arrays.
+
 # Future Work
 
  * Associations aren't supported -- this one might be tricky!

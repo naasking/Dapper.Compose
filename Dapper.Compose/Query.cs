@@ -269,5 +269,62 @@ namespace Dapper.Compose
                 }
             }
         }
+
+        static readonly MethodInfo validate = new Action<IDbConnection, Query<int>, IDictionary<string, object>>(Validate<int>)
+            .GetMethodInfo()
+            .GetGenericMethodDefinition();
+
+        /// <summary>
+        /// Iterate through <typeparamref name="T"/>'s static members and invoke any queries with
+        /// parameter bindings via <see cref="QueryParamAttribute"/>.
+        /// </summary>
+        /// <typeparam name="T">The type to validate.</typeparam>
+        /// <param name="db">The database connection to use.</param>
+        /// <returns>The set of errors generated.</returns>
+        public static IEnumerable<Exception> Validate<T>(IDbConnection db)
+        {
+            var args = new object[3];
+            args[0] = db;
+            foreach(var field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+            {
+                var query = field.GetValue(null); //FIXME: ensure it's a Query<T>
+                if (query != null && field.FieldType.IsConstructedGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(Query<>))
+                {
+                    var attr = field.GetCustomAttributes<QueryParamAttribute>()
+                                    .ToDictionary(x => x.Name, x => x.Value);
+                    if (attr.Count > 0)
+                    {
+                        args[1] = query;
+                        args[2] = attr;
+                        Exception e;
+                        try
+                        {
+                            validate.MakeGenericMethod(field.FieldType.GetGenericArguments()[0])
+                                    .Invoke(null, args);
+                            continue;
+                        }
+                        catch (Exception ex)
+                        {
+                            e = ex;
+                        }
+                        yield return e;
+                    }
+                }
+            }
+        }
+
+        static void Validate<T>(IDbConnection db, Query<T> query, IDictionary<string, object> param)
+        {
+            var cmd = db.CreateCommand();
+            cmd.CommandText = query.Sql;
+            foreach (var x in param)
+            {
+                var p = cmd.CreateParameter();
+                p.ParameterName = x.Key;
+                p.Value = x.Value;
+                cmd.Parameters.Add(p);
+            }
+            cmd.ExecuteNonQuery();
+        }
     }
 }
