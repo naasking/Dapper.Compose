@@ -17,7 +17,13 @@ namespace ComposeTests
         {
             var db = new SqlConnection(@"Data Source=.\SA;Initial Catalog=NORTHWND;Integrated Security=True");
             db.Open();
+            StandardTests(db);
+            EmbeddedQueryTests(db);
+        }
 
+        static void StandardTests(IDbConnection db)
+        {
+            getEmployeeAndOrders = Query.Combine(getEmployee, getEmployeeOrders, (e, o) => new EmployeeOrders { Employee = e, Orders = o });
             TestPlainDapper(db);
             TestCombinedQueries(db);
 
@@ -28,9 +34,9 @@ namespace ComposeTests
         }
 
         // an example of reified queries and their composition
-        static readonly Query<Employee> getEmployee = Query.Single<Employee>(@"select EmployeeID, FirstName, LastName from Employees where EmployeeId = @employeeID");
-        static readonly Query<List<Order>> getEmployeeOrders = Query.List<Order>(@"select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
-        static readonly Query<EmployeeOrders> getEmployeeAndOrders = Query.Combine(getEmployee, getEmployeeOrders, (e, o) => new EmployeeOrders { Employee = e, Orders = o });
+        static Query<Employee> getEmployee = Query.Single<Employee>(@"select EmployeeID, FirstName, LastName from Employees where EmployeeId = @employeeID");
+        static Query<List<Order>> getEmployeeOrders = Query.List<Order>(@"select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
+        static Query<EmployeeOrders> getEmployeeAndOrders;
 
         static void TestPlainDapper(IDbConnection db)
         {
@@ -58,11 +64,27 @@ namespace ComposeTests
             CheckResults(janet.Employee, janet.Orders);
         }
 
+        static void EmbeddedQueryTests(IDbConnection db)
+        {
+            foreach (var sql in Query.GetRunnable<Employee>())
+            {
+                CheckJanet(db.QuerySingle<Employee>(sql.Value));
+            }
+            getEmployee = Query.Single<Employee>(Query.Load<Employee>($"{nameof(ComposeTests)}.Queries.GetEmployee.sql"));
+            getEmployeeOrders = Query.List<Order>(Query.Load<EmployeeOrders>($"{nameof(ComposeTests)}.Queries.GetEmployeeOrders.sql"));
+            StandardTests(db);
+        }
+
         static void CheckResults(Employee janet, IEnumerable<Order> orders)
+        {
+            CheckJanet(janet);
+            Debug.Assert(orders.Count() == 127);
+        }
+
+        static void CheckJanet(Employee janet)
         {
             Debug.Assert(janet.FirstName == "Janet");
             Debug.Assert(janet.LastName == "Leverling");
-            Debug.Assert(orders.Count() == 127);
         }
 
         public class EmployeeOrders

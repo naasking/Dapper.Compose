@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Dapper.Compose.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
@@ -48,10 +49,10 @@
     <Compile Include="Query.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Combine.tt">
+    <None Include="Combine.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Combine.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
