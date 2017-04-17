@@ -3,7 +3,8 @@
 Dapper is a great tool, but it carries an implicit limitation of stringly queries:
 we have to write lots of small, easily testable queries so we can validate them
 against the database. This unfortunately ends up incurring many round trips,
-because there's no straightforward way to combine small queries into larger queries.
+because there's no straightforward way to safely combine small queries into larger
+queries.
 
 This is the purpose of Dapper.Compose. Suppose we start with the Northwind
 database, and we want a simple dynamic web page listing the orders an employee
@@ -20,7 +21,7 @@ is managing. Using Dapper.Compose, we might write it like so:
 			"select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
 
 		// the combined query
-		public static readonly Query<EmployeeOrders> GetEmployeeOrdersByEmployeeId =
+		public static readonly Query<EmployeeOrders> GetOrdersByEmployeeId =
 			Query.Combine(GetEmployeeById, GetOrdersByEmployeeId,
 			             (e, o) => new EmployeeOrders { Employee = e, Orders = o.ToList() });
 	}
@@ -50,14 +51,15 @@ larger queries that still only perform a single round trip to the database. On
 our dynamic web page, our model would be EmployeeOrders which we would obtain
 like so:
 
-    var results = Queries.GetEmployeeOrdersByEmployeeId.Execute(
+    var results = Queries.GetOrdersByEmployeeId.Execute(
 		dbConnection, new { employeeId = ... });
 
 The only caveat is that you still have to ensure you're using the correct
 parameter names, but this is no worse than ordinary Dapper.
 
 This provides a simple framework to incrementally build up your application,
-where you can easily reuse queries while minimizing database rountrips.
+where you can easily compose previously written small queries into larger
+multiqueries that minimize database rountrips.
 
 # Queries as Embedded Resources
 
@@ -77,9 +79,9 @@ your program call:
 
 	public static class Queries
 	{
-		// individual query to obtain an employee
-		public static readonly Query<Employee> GetEmployeeById = Query.Single<Employee>(
-			Query.Load<Employee>("ProjectName.Queries.GetEmployee.sql"));
+	    // individual query to obtain an employee
+	    public static readonly Query<Employee> GetEmployeeById = Query.Single<Employee>(
+	        Query.Load<Employee>("ProjectName.Queries.GetEmployee.sql"));
         ...
     }
 
@@ -88,12 +90,11 @@ you're connected to your database, and long query strings are no longer
 cluttering your code.
 
 There's one other convenient feature available for query validation
-purposes: you can identify only a section of an .sql containing your
+purposes: you can identify only the section of an .sql containing your
 query, and anything before that marker will be ignored:
 
     -- in ProjectName/Queries/GetEmployee.sql
-    -- everything until the comment "-- Dapper.Compose.Query" is ignored
-	-- by Query.Load
+    -- everything until the comment "-- Dapper.Compose.Query" is ignored by Query.Load
     declare @employeeID int = 3
 
     -- Dapper.Compose.Query
@@ -105,11 +106,11 @@ prologue that's ignored makes the whole query trivial to test:
 
     var dbConnection = ...; // open connection
     foreach (var query in Query.GetRunnable<Employee>())
-		dbConnection.Execute(query.Value);
+        dbConnection.Execute(query.Value);
 
 Any query with the marker comment is assumed to be runnable, so you can load
 them all and run them as-is to check whether they return proper results or
-whether they generate any errors indicating a schema mismatch.
+whether they generate any errors indicating a possible schema mismatch.
 
 Shout out to [QueryFirst](https://github.com/bbsimonbb/query-first) for inspiring
 this idea. That project will be a promising solution once it develops a
