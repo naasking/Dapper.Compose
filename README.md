@@ -124,7 +124,7 @@ parameter values via attributes. So given a static query class like:
 	public static class Queries
 	{
 	    // individual query to obtain an employee
-		[QueryParam(nameof(Employee.EmployeeID), 3)]
+	    [QueryParam(nameof(Employee.EmployeeID), 3)]
 	    public static readonly Query<Employee> GetEmployeeById = Query.Single<Employee>(
 	        Query.Load<Employee>("ProjectName.Queries.GetEmployee.sql"));
         ...
