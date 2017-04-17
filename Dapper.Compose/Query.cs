@@ -29,8 +29,7 @@ namespace Dapper.Compose
         /// </summary>
         /// <param name="read">The materializing function.</param>
         /// <param name="readAsync">The async materializing function.</param>
-        /// <param name="sqlFormat">A formatted SQL query.</param>
-        /// <param name="parameters">The SQL query parameters.</param>
+        /// <param name="sql">An SQL query.</param>
         public Query(Func<SqlMapper.GridReader, T> read, Func<SqlMapper.GridReader, Task<T>> readAsync, string sql)
             : this()
         {
@@ -121,7 +120,6 @@ namespace Dapper.Compose
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
-        /// <param name="parameters"></param>
         /// <returns></returns>
         public static Query<T> Single<T>(string sql)
         {
@@ -133,7 +131,6 @@ namespace Dapper.Compose
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
-        /// <param name="parameters"></param>
         /// <returns></returns>
         public static Query<T> SingleOrDefault<T>(string sql)
         {
@@ -145,7 +142,6 @@ namespace Dapper.Compose
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
-        /// <param name="parameters"></param>
         /// <returns></returns>
         public static Query<T> First<T>(string sql)
         {
@@ -157,7 +153,6 @@ namespace Dapper.Compose
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
-        /// <param name="parameters"></param>
         /// <returns></returns>
         public static Query<T> FirstOrDefault<T>(string sql)
         {
@@ -169,7 +164,6 @@ namespace Dapper.Compose
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
-        /// <param name="parameters"></param>
         /// <returns></returns>
         public static Query<List<T>> List<T>(string sql)
         {
