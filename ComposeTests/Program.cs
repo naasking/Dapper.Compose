@@ -37,8 +37,8 @@ namespace ComposeTests
         }
 
         // an example of reified queries and their composition
-        [QueryParam("employeeId", 3, 4, 5)]
-        static Query<Employee> getEmployee = Query.Single<Employee>(@"select EmployeeID, FirstName, LastName from Employees where EmployeeId = @employeeID");
+        [QueryParam("employeeId", 3)]
+        static Query<Employee> getEmployee = Query.Single<Employee>(@"select FirstName, EmployeeID, LastName from Employees where EmployeeId = @employeeID");
         [QueryParam(nameof(Employee.EmployeeID), 3)]
         static Query<List<Order>> getEmployeeOrders = Query.List<Order>(@"select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
         [QueryParam(nameof(Order.EmployeeID), 3)]

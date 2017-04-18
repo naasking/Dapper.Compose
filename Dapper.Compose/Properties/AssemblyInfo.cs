@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Dapper.Compose")]
-[assembly: AssemblyDescription("Dapper.Compose provides some simple, low-overhead abstractions for composing queries into larger multiqueries to minimize database roundtrips.")]
+[assembly: AssemblyDescription("Dapper.Compose provides simple, fast abstractions for composing larger multiqueries to minimize database roundtrips, and for organizing and validating your queries.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Sandro Magi")]
 [assembly: AssemblyProduct("Dapper.Compose")]
@@ -27,5 +27,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0-RC4")]
+[assembly: AssemblyInformationalVersion("1.0.0-RC5")]
 [assembly: AssemblyFileVersion("1.0.0")]
