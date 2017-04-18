@@ -137,6 +137,12 @@ You can run all static members of a class bound like this via single call:
 This is useful for queries that accept types that are awkward to express in
 SQL, like arrays.
 
+# Installation
+
+The prerelease version are on nuget and fully functional. Just install with:
+
+    Install-Package Dapper.Compose -pre
+
 # Future Work
 
  * Associations aren't supported -- this one might be tricky!
