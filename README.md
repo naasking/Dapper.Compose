@@ -139,7 +139,7 @@ SQL, like arrays.
 
 # Installation
 
-The prerelease version are on nuget and fully functional. Just install with:
+The prerelease version is on nuget and fully functional. Just install with:
 
     Install-Package Dapper.Compose -pre
 
