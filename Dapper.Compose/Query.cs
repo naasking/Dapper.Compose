@@ -281,7 +281,7 @@ namespace Dapper.Compose
         /// <typeparam name="T">The type to validate.</typeparam>
         /// <param name="db">The database connection to use.</param>
         /// <returns>The set of errors generated.</returns>
-        public static IEnumerable<Exception> Validate<T>(IDbConnection db)
+        public static IEnumerable<KeyValuePair<string, Exception>> Validate<T>(IDbConnection db)
         {
             var args = new object[3];
             args[0] = db;
@@ -307,7 +307,7 @@ namespace Dapper.Compose
                         {
                             e = ex;
                         }
-                        yield return e;
+                        yield return new KeyValuePair<string, Exception>(field.Name, e);
                     }
                 }
             }
