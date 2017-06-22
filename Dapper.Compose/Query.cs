@@ -280,12 +280,13 @@ namespace Dapper.Compose
         /// </summary>
         /// <typeparam name="T">The type to validate.</typeparam>
         /// <param name="db">The database connection to use.</param>
+        /// <param name="type">The type to inspect for queries.</param>
         /// <returns>The set of errors generated.</returns>
-        public static IEnumerable<KeyValuePair<string, Exception>> Validate<T>(IDbConnection db)
+        public static IEnumerable<KeyValuePair<string, Exception>> Validate(IDbConnection db, Type type)
         {
             var args = new object[3];
             args[0] = db;
-            foreach(var field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
             {
                 var query = field.GetValue(null); //FIXME: ensure it's a Query<T>
                 if (query != null && field.FieldType.IsConstructedGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(Query<>))
@@ -311,6 +312,18 @@ namespace Dapper.Compose
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Iterate through <typeparamref name="T"/>'s static members and invoke any queries with
+        /// parameter bindings via <see cref="QueryParamAttribute"/>.
+        /// </summary>
+        /// <typeparam name="T">The type to validate.</typeparam>
+        /// <param name="db">The database connection to use.</param>
+        /// <returns>The set of errors generated.</returns>
+        public static IEnumerable<KeyValuePair<string, Exception>> Validate<T>(IDbConnection db)
+        {
+            return Validate(db, typeof(T));
         }
 
         static void Validate<T>(IDbConnection db, Query<T> query, IDictionary<string, object> param)

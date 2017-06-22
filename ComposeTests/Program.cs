@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace ComposeTests
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -20,7 +20,7 @@ namespace ComposeTests
             StandardTests(db);
             EmbeddedQueryTests(db);
 
-            foreach (var x in Query.Validate<Program>(db))
+            foreach (var x in Query.Validate(db, typeof(Program)))
                 Console.Error.WriteLine(x);
         }
 
