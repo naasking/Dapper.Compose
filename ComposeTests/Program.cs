@@ -21,7 +21,11 @@ namespace ComposeTests
             EmbeddedQueryTests(db);
 
             foreach (var x in Query.Validate(db, typeof(Program)))
+            {
                 Console.Error.WriteLine(x);
+                Console.Error.WriteLine("Press enter to continue...");
+                Console.ReadLine();
+            }
         }
 
         static void StandardTests(IDbConnection db)
@@ -77,13 +81,26 @@ namespace ComposeTests
 
         static void EmbeddedQueryTests(IDbConnection db)
         {
-            foreach (var sql in Query.GetRunnable<Employee>())
+            foreach (var sql in Query.GetRunnable(typeof(Employee)))
             {
-                CheckJanet(db.QuerySingle<Employee>(sql.Value));
+                if (!sql.Key.Contains("Invalid"))
+                    CheckJanet(db.QuerySingle<Employee>(sql.Value));
             }
             getEmployee = Query.Single<Employee>(Query.Load<Employee>($"{nameof(ComposeTests)}.Queries.GetEmployee.sql"));
             getEmployeeOrders = Query.List<Order>(Query.Load<EmployeeOrders>($"{nameof(ComposeTests)}.Queries.GetEmployeeOrders.sql"));
             StandardTests(db);
+
+            var getEmployeeInvalid = Query.Single<Employee>(Query.Load<Employee>($"{nameof(ComposeTests)}.Queries.GetEmployeeInvalid.sql"));
+
+            try
+            {
+                var err = getEmployeeInvalid.Execute(db);
+            }
+            catch
+            {
+                return;
+            }
+            Debug.Assert(false);
         }
 
         static void CheckResults(Employee janet, IEnumerable<Order> orders)

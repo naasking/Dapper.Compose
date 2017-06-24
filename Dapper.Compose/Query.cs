@@ -255,9 +255,9 @@ namespace Dapper.Compose
         /// </summary>
         /// <typeparam name="T">Any type whose assembly we're querying.</typeparam>
         /// <returns>The list of queries embedded in the assembly.</returns>
-        public static IEnumerable<KeyValuePair<string, string>> GetRunnable<T>()
+        public static IEnumerable<KeyValuePair<string, string>> GetRunnable(Type type)
         {
-            var asm = typeof(T).GetTypeInfo().Assembly;
+            var asm = type.GetTypeInfo().Assembly;
             foreach (var name in asm.GetManifestResourceNames())
             {
                 if (name.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
@@ -269,7 +269,7 @@ namespace Dapper.Compose
                 }
             }
         }
-
+        
         static readonly MethodInfo validate = new Action<IDbConnection, Query<int>, IDictionary<string, object>>(Validate<int>)
             .GetMethodInfo()
             .GetGenericMethodDefinition();
@@ -278,7 +278,6 @@ namespace Dapper.Compose
         /// Iterate through <typeparamref name="T"/>'s static members and invoke any queries with
         /// parameter bindings via <see cref="QueryParamAttribute"/>.
         /// </summary>
-        /// <typeparam name="T">The type to validate.</typeparam>
         /// <param name="db">The database connection to use.</param>
         /// <param name="type">The type to inspect for queries.</param>
         /// <returns>The set of errors generated.</returns>
@@ -312,18 +311,6 @@ namespace Dapper.Compose
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Iterate through <typeparamref name="T"/>'s static members and invoke any queries with
-        /// parameter bindings via <see cref="QueryParamAttribute"/>.
-        /// </summary>
-        /// <typeparam name="T">The type to validate.</typeparam>
-        /// <param name="db">The database connection to use.</param>
-        /// <returns>The set of errors generated.</returns>
-        public static IEnumerable<KeyValuePair<string, Exception>> Validate<T>(IDbConnection db)
-        {
-            return Validate(db, typeof(T));
         }
 
         static void Validate<T>(IDbConnection db, Query<T> query, IDictionary<string, object> param)
