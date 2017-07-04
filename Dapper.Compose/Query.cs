@@ -122,33 +122,38 @@ namespace Dapper.Compose
         /// <param name="query">The query whose results we wish to count.</param>
         /// <returns>A query that counts the results of the given query.</returns>
         /// <remarks>
-        /// This uses simple SQL, but it's not clear to me whether this will work across all database types. This definitely
-        /// works for SQL server though.
+        /// This uses a simple and portable SQL subquery to count the result set.
         /// </remarks>
         public static Query<int> Count<T>(this Query<List<T>> query)
         {
-            return Single<int>(string.Format("select count(*) from ({0}) _count_{1}_{2}_{3}", query.Sql, Math.Abs(query.Sql.GetHashCode()), Math.Abs(query.Read.GetHashCode()), Math.Abs(query.ReadAsync.GetHashCode())));
+            // generate a query alias
+            var r = "count_" + Math.Abs(query.Sql.GetHashCode()) + "_" + Math.Abs(query.Read.GetHashCode()) + "_" + Math.Abs(query.ReadAsync.GetHashCode());
+            return Single<int>($"select count(*) from ({query.Sql}) {r}");
         }
 
-#if DEBUG
         /// <summary>
-        /// Generate a count sub-query from 
+        /// Generate a paged query.
         /// </summary>
         /// <typeparam name="T">The type of query results.</typeparam>
-        /// <param name="query">The query whose results we wish to count.</param>
+        /// <param name="query">The query whose results to page.</param>
+        /// <param name="rowColumn">The name of the column containing the current row number.</param>
+        /// <param name="pageSizeVar">The variable specifying the size of the page.</param>
+        /// <param name="pageVar">The variable designating the page of results to fetch. The page must be &gt;= 1.</param>
         /// <returns>A query that counts the results of the given query.</returns>
         /// <remarks>
-        /// This uses simple SQL, but it's not clear to me whether this will work across all database types. This definitely
-        /// works for SQL server though.
+        /// This uses a simple and portable SQL subquery to paginate the result set using some query parameters with configurable names.
         /// </remarks>
-        public static Query<List<T>> Paged<T>(this Query<List<T>> query, string ordering)
+        public static Query<List<T>> Paged<T>(this Query<List<T>> query, string rowColumn = "row", string pageSizeVar = "@pageSize", string pageVar = "@page")
         {
-            // could simply search for the first "select ", then replace with "select ROW_NUMBER() over (${ordering}),"
-            // might work, but: it requires knowledge of sql dialects
-            //return List<int>(string.Format("select count(*) from ({0}) __count_{1}_{2}_{3}", query, query.Sql.GetHashCode(), query.Read.GetHashCode(), query.ReadAsync.GetHashCode()));
-            return query;
+            // generate a query alias
+            var r = "_paged_" + Math.Abs(query.Sql.GetHashCode()) + "_" + Math.Abs(query.Read.GetHashCode()) + "_" + Math.Abs(query.ReadAsync.GetHashCode());
+            return List<T>($@"
+select {r}.*
+from (
+{query.Sql}
+) {r}
+where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} * {pageSizeVar}");
         }
-#endif
 
         /// <summary>
         /// Create a query returning a single value.

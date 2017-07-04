@@ -44,7 +44,7 @@ namespace ComposeTests
         [QueryParam("employeeId", 3)]
         static Query<Employee> getEmployee = Query.Single<Employee>(@"select FirstName, EmployeeID, LastName from Employees where EmployeeId = @employeeID");
         [QueryParam(nameof(Employee.EmployeeID), 3)]
-        static Query<List<Order>> getEmployeeOrders = Query.List<Order>(@"select OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
+        static Query<List<Order>> getEmployeeOrders = Query.List<Order>(@"select ROW_NUMBER() over (order by OrderID) as Row, OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
         [QueryParam(nameof(Order.EmployeeID), 3)]
         static Query<EmployeeOrders> getEmployeeAndOrders;
         
@@ -59,12 +59,19 @@ namespace ComposeTests
             Debug.Assert(count == expectedCount);
         }
 
+        static void TestPaged<T>(IDbConnection db, Query<List<T>> query, object param, int expectedCount)
+        {
+            var results = query.Paged().Execute(db, param);
+            Debug.Assert(results.Count == expectedCount);
+        }
+
         static void TestPlainDapper(IDbConnection db)
         {
             var janet = getEmployee.Execute(db, new { employeeId = 3 });
             var janetsOrders = getEmployeeOrders.Execute(db, new { employeeId = 3 });
             CheckResults(janet, janetsOrders);
             TestCount(db, getEmployeeOrders, new { employeeId = 3 }, 127);
+            TestPaged(db, getEmployeeOrders, new { employeeId = 3, page = 2, pageSize = 50 }, 50);
         }
 
         static void TestCombinedQueries(IDbConnection db)
@@ -79,12 +86,19 @@ namespace ComposeTests
             Debug.Assert(count == expectedCount);
         }
 
+        static async Task TestPagedAsync<T>(IDbConnection db, Query<List<T>> query, object param, int expectedCount)
+        {
+            var results = await query.Paged().ExecuteAsync(db, param);
+            Debug.Assert(results.Count == expectedCount);
+        }
+
         static async Task TestPlainDapperAsync(IDbConnection db)
         {
             var janet = await getEmployee.ExecuteAsync(db, new { employeeId = 3 });
             var janetsOrders = await getEmployeeOrders.ExecuteAsync(db, new { employeeId = 3 });
             CheckResults(janet, janetsOrders);
             await TestCountAsync(db, getEmployeeOrders, new { employeeId = 3 }, 127);
+            await TestPagedAsync(db, getEmployeeOrders, new { employeeId = 3, page = 2, pageSize = 50 }, 50);
         }
 
         static async Task TestCombinedQueriesAsync(IDbConnection db)
