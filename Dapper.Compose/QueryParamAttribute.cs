@@ -12,12 +12,22 @@ namespace Dapper.Compose
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public sealed class QueryParamAttribute : Attribute
     {
+        /// <summary>
+        /// Describe a test query parameter.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public QueryParamAttribute(string name, object value)
         {
             Name = name;
             Value = value;
         }
 
+        /// <summary>
+        /// Describe a test query parameter.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="values"></param>
         public QueryParamAttribute(string name, params object[] values)
             : this(name, values as object)
         {

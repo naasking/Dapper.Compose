@@ -293,7 +293,6 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
         /// <summary>
         /// Get the runnable queries embedded in a given type's assembly.
         /// </summary>
-        /// <typeparam name="T">Any type whose assembly we're querying.</typeparam>
         /// <returns>The list of queries embedded in the assembly.</returns>
         public static IEnumerable<KeyValuePair<string, string>> GetRunnable(Type type)
         {
@@ -315,7 +314,7 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
             .GetGenericMethodDefinition();
 
         /// <summary>
-        /// Iterate through <typeparamref name="T"/>'s static members and invoke any queries with
+        /// Iterate through <paramref name="type"/>'s static members and invoke any queries with
         /// parameter bindings via <see cref="QueryParamAttribute"/>.
         /// </summary>
         /// <param name="db">The database connection to use.</param>
