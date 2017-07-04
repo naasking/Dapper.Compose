@@ -116,7 +116,7 @@ namespace Dapper.Compose
         }
 
         /// <summary>
-        /// Generate a count sub-query from 
+        /// Generate a count query.
         /// </summary>
         /// <typeparam name="T">The type of query results.</typeparam>
         /// <param name="query">The query whose results we wish to count.</param>
@@ -129,6 +129,23 @@ namespace Dapper.Compose
             // generate a query alias
             var r = "count_" + Math.Abs(query.Sql.GetHashCode()) + "_" + Math.Abs(query.Read.GetHashCode()) + "_" + Math.Abs(query.ReadAsync.GetHashCode());
             return Single<int>($"select count(*) from ({query.Sql}) {r}");
+        }
+
+        /// <summary>
+        /// Generate a page count query.
+        /// </summary>
+        /// <typeparam name="T">The type of query results.</typeparam>
+        /// <param name="query">The query whose results we wish to count.</param>
+        /// <param name="pageSizeVar">The variable specifying the size of the page.</param>
+        /// <returns>A query that counts the results of the given query.</returns>
+        /// <remarks>
+        /// This uses a simple and portable SQL subquery to count the result set in number of pages.
+        /// </remarks>
+        public static Query<int> PageCount<T>(this Query<List<T>> query, string pageSizeVar = "@pageSize")
+        {
+            // generate a pseudo-unique query alias
+            var r = "pagecount_" + Math.Abs(query.Sql.GetHashCode()) + "_" + Math.Abs(query.Read.GetHashCode()) + "_" + Math.Abs(query.ReadAsync.GetHashCode());
+            return Single<int>($"select 1 + count(*)/{pageSizeVar} from ({query.Sql}) {r}");
         }
 
         /// <summary>
@@ -145,7 +162,7 @@ namespace Dapper.Compose
         /// </remarks>
         public static Query<List<T>> Paged<T>(this Query<List<T>> query, string rowColumn = "row", string pageSizeVar = "@pageSize", string pageVar = "@page")
         {
-            // generate a query alias
+            // generate a pseudo-unique query alias
             var r = "_paged_" + Math.Abs(query.Sql.GetHashCode()) + "_" + Math.Abs(query.Read.GetHashCode()) + "_" + Math.Abs(query.ReadAsync.GetHashCode());
             return List<T>($@"
 select {r}.*
