@@ -53,11 +53,18 @@ namespace ComposeTests
         [QueryParam("dummy", "dummy")]
         static string dummy;
 
+        static void TestCount<T>(IDbConnection db, Query<List<T>> query, object param, int expectedCount)
+        {
+            var count = query.Count().Execute(db, param);
+            Debug.Assert(count == expectedCount);
+        }
+
         static void TestPlainDapper(IDbConnection db)
         {
             var janet = getEmployee.Execute(db, new { employeeId = 3 });
             var janetsOrders = getEmployeeOrders.Execute(db, new { employeeId = 3 });
             CheckResults(janet, janetsOrders);
+            TestCount(db, getEmployeeOrders, new { employeeId = 3 }, 127);
         }
 
         static void TestCombinedQueries(IDbConnection db)
@@ -66,11 +73,18 @@ namespace ComposeTests
             CheckResults(janet.Employee, janet.Orders);
         }
 
+        static async Task TestCountAsync<T>(IDbConnection db, Query<List<T>> query, object param, int expectedCount)
+        {
+            var count = await query.Count().ExecuteAsync(db, param);
+            Debug.Assert(count == expectedCount);
+        }
+
         static async Task TestPlainDapperAsync(IDbConnection db)
         {
             var janet = await getEmployee.ExecuteAsync(db, new { employeeId = 3 });
             var janetsOrders = await getEmployeeOrders.ExecuteAsync(db, new { employeeId = 3 });
             CheckResults(janet, janetsOrders);
+            await TestCountAsync(db, getEmployeeOrders, new { employeeId = 3 }, 127);
         }
 
         static async Task TestCombinedQueriesAsync(IDbConnection db)

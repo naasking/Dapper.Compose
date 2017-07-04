@@ -116,6 +116,41 @@ namespace Dapper.Compose
         }
 
         /// <summary>
+        /// Generate a count sub-query from 
+        /// </summary>
+        /// <typeparam name="T">The type of query results.</typeparam>
+        /// <param name="query">The query whose results we wish to count.</param>
+        /// <returns>A query that counts the results of the given query.</returns>
+        /// <remarks>
+        /// This uses simple SQL, but it's not clear to me whether this will work across all database types. This definitely
+        /// works for SQL server though.
+        /// </remarks>
+        public static Query<int> Count<T>(this Query<List<T>> query)
+        {
+            return Single<int>(string.Format("select count(*) from ({0}) _count_{1}_{2}_{3}", query.Sql, Math.Abs(query.Sql.GetHashCode()), Math.Abs(query.Read.GetHashCode()), Math.Abs(query.ReadAsync.GetHashCode())));
+        }
+
+#if DEBUG
+        /// <summary>
+        /// Generate a count sub-query from 
+        /// </summary>
+        /// <typeparam name="T">The type of query results.</typeparam>
+        /// <param name="query">The query whose results we wish to count.</param>
+        /// <returns>A query that counts the results of the given query.</returns>
+        /// <remarks>
+        /// This uses simple SQL, but it's not clear to me whether this will work across all database types. This definitely
+        /// works for SQL server though.
+        /// </remarks>
+        public static Query<List<T>> Paged<T>(this Query<List<T>> query, string ordering)
+        {
+            // could simply search for the first "select ", then replace with "select ROW_NUMBER() over (${ordering}),"
+            // might work, but: it requires knowledge of sql dialects
+            //return List<int>(string.Format("select count(*) from ({0}) __count_{1}_{2}_{3}", query, query.Sql.GetHashCode(), query.Read.GetHashCode(), query.ReadAsync.GetHashCode()));
+            return query;
+        }
+#endif
+
+        /// <summary>
         /// Create a query returning a single value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
