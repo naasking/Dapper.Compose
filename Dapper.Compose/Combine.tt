@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-<# var count = 16; #>
+<# var count = 32; #>
 using System;
 
 namespace Dapper.Compose
@@ -34,4 +34,19 @@ namespace Dapper.Compose
 
 <# } #>
 	}
+<# for (var i = 16; i < count; ++i) { #>
+
+    /// <summary>
+    /// Parameterized delegate.
+    /// </summary>
+    /// <typeparam name="T0">Return type of query <paramref name="arg0" />.</typeparam>
+    /// <typeparam name="TResult">Return type of the function.</typeparam>
+    /// <param name="arg0">Parameter #0 of the function.</param>
+<# for (int j = 1; j <= i; ++j) { #>
+    /// <typeparam name="T<#=j#>">Type of parameter <paramref name="arg<#=j#>" />.</typeparam>
+    /// <param name="arg<#=j#>">Parameter #<#=j#> of the function.</param>
+<# } #>
+    /// <returns>A value constructed from the various subqueries.</returns>
+	public delegate TResult Func<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult>(T0 arg0<# for (int j = 1; j <= i; ++j){#>, T<#=j#> arg<#=j#><# } #>);
+<# } #>
 }
