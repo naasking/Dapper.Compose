@@ -19,6 +19,7 @@ namespace ComposeTests
             db.Open();
             StandardTests(db);
             EmbeddedQueryTests(db);
+            Query.Load<Employee>($"{nameof(ComposeTests)}.Queries.test.sql");
 
             foreach (var x in Query.Validate(db, typeof(Program)))
             {
