@@ -8,6 +8,7 @@
   },
 
   "dependencies": {
+    "Dapper": "1.50.2",
     "Microsoft.NETCore.App": {
       "type": "platform",
       "version": "1.0.1"
