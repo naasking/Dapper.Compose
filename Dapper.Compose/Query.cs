@@ -283,7 +283,7 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
                 while (!stream.EndOfStream)
                 {
                     var line = stream.ReadLine().Trim();
-                    if (line.Length > 1 && (line[0] != '-' && line[1] != '-'))
+                    if (line.Length < 2 || (line[0] != '-' && line[1] != '-'))
                         buf.AppendLine(line);
                     else if (IsQueryMarker(line))
                         queryStart = buf.Length;

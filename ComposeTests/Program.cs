@@ -19,7 +19,16 @@ namespace ComposeTests
             db.Open();
             StandardTests(db);
             EmbeddedQueryTests(db);
-            Query.Load<Employee>($"{nameof(ComposeTests)}.Queries.test.sql");
+
+            var test = Query.Load<Employee>($"{nameof(ComposeTests)}.Queries.test.sql");
+            Debug.Assert(test == @"INSERT INTO [WS].[ProductChannelProperty] (
+ProductIntegrationKey,
+ChannelIntegrationKey
+VALUES(
+@productintegrationkey,
+@channelintegrationkey
+)
+");
 
             foreach (var x in Query.Validate(db, typeof(Program)))
             {
