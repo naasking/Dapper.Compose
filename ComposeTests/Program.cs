@@ -19,6 +19,7 @@ namespace ComposeTests
             db.Open();
             StandardTests(db);
             EmbeddedQueryTests(db);
+            TestQueryError(db);
 
             var test = Query.Load<Employee>($"{nameof(ComposeTests)}.Queries.test.sql");
             Debug.Assert(test == @"INSERT INTO [WS].[ProductChannelProperty] (
@@ -52,6 +53,8 @@ VALUES(
 
         // an example of reified queries and their composition
         [QueryParam("employeeId", 3)]
+        static Query<Employee> getEmployeeError = Query.Single<Employee>(@"select FirstName, EmployeeID, LastName from Employees where EmployeeId IS NULL");
+        [QueryParam("employeeId", 3)]
         static Query<Employee> getEmployee = Query.Single<Employee>(@"select FirstName, EmployeeID, LastName from Employees where EmployeeId = @employeeID");
         [QueryParam(nameof(Employee.EmployeeID), 3)]
         static Query<List<Order>> getEmployeeOrders = Query.List<Order>(@"select ROW_NUMBER() over (order by OrderID) as Row, OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
@@ -73,6 +76,20 @@ VALUES(
         {
             var results = query.Paged().Execute(db, param);
             Debug.Assert(results.Count == expectedCount);
+        }
+
+        static void TestQueryError(IDbConnection db)
+        {
+            try
+            {
+                var none = getEmployeeError.Execute(db, new { employeeId = 3 });
+            }
+            catch (InvalidOperationException e)
+            {
+                if (e.Message.StartsWith($"The query for {nameof(Employee)}"))
+                    return;
+            }
+            Debug.Assert(false, "Proper error was not thrown.");
         }
 
         static void TestPlainDapper(IDbConnection db)

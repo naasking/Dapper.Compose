@@ -87,8 +87,8 @@ namespace Dapper.Compose
                 return await ReadAsync(results);
         }
 
-        internal static readonly Func<SqlMapper.GridReader, T> Single = Query.Reader<T, T>(nameof(SqlMapper.GridReader.ReadSingle));
-        internal static readonly Func<SqlMapper.GridReader, Task<T>> SingleAsync = Query.Reader<T, Task<T>>(nameof(SqlMapper.GridReader.ReadSingleAsync));
+        internal static readonly Func<SqlMapper.GridReader, T> Single = Query.ReadSingle<T>;
+        internal static readonly Func<SqlMapper.GridReader, Task<T>> SingleAsync = Query.ReadSingleAsync<T>;
         internal static readonly Func<SqlMapper.GridReader, T> SingleOrDefault = Query.Reader<T, T>(nameof(SqlMapper.GridReader.ReadSingleOrDefault));
         internal static readonly Func<SqlMapper.GridReader, Task<T>> SingleOrDefaultAsync = Query.Reader<T, Task<T>>(nameof(SqlMapper.GridReader.ReadSingleOrDefaultAsync));
         internal static readonly Func<SqlMapper.GridReader, T> First = Query.Reader<T, T>(nameof(SqlMapper.GridReader.ReadFirst));
@@ -104,6 +104,9 @@ namespace Dapper.Compose
     /// </summary>
     public static partial class Query
     {
+        /// <summary>
+        /// Return an open instance delegate that dispatches right into the grid reader.
+        /// </summary>
         internal static Func<SqlMapper.GridReader, TReturn> Reader<T, TReturn>(string name, params Type[] argTypes)
         {
             // construct an open instance delegate on Grid Reader
@@ -113,6 +116,36 @@ namespace Dapper.Compose
                          .Single(x => x.IsGenericMethodDefinition)
                          .MakeGenericMethod(typeof(T));
             return (Func<SqlMapper.GridReader, TReturn>)method.CreateDelegate(typeof(Func<SqlMapper.GridReader, TReturn>), null);
+        }
+
+        /// <summary>
+        /// Wrapper for ReadSingle which throws a more usable exception.
+        /// </summary>
+        internal static TReturn ReadSingle<TReturn>(SqlMapper.GridReader grid)
+        {
+            try
+            {
+                return grid.ReadSingle<TReturn>();
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"The query for {typeof(TReturn).Name} returned no results", e);
+            }
+        }
+
+        /// <summary>
+        /// Wrapper for ReadSingle which throws a more usable exception.
+        /// </summary>
+        internal static async Task<TReturn> ReadSingleAsync<TReturn>(SqlMapper.GridReader grid)
+        {
+            try
+            {
+                return await grid.ReadSingleAsync<TReturn>();
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"The query for {typeof(TReturn).Name} returned no results", e);
+            }
         }
 
         /// <summary>
