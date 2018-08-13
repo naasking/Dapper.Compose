@@ -1,3 +1,3 @@
-./nuget pack ../Dapper.Compose/Dapper.Compose.csproj -properties Configuration=Release
+cp ../Dapper.Compose/bin/Release/*.nupkg .
 
 Read-Host -Prompt "All packages built, press enter to continue"
