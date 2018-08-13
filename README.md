@@ -143,6 +143,12 @@ The prerelease version is on nuget and fully functional. Just install with:
 
     Install-Package Dapper.Compose -pre
 
+# Building
+
+If you want to build and run the tests, note that you'll need the Northwind database
+installed. This was the simplest way for me to run some tests, although I plan to
+switch to an embedded database at some point. Contributions are welcome!
+
 # Future Work
 
  * Associations aren't supported -- this one might be tricky!
