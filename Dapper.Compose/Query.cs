@@ -376,7 +376,9 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
             args[0] = db;
             foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
             {
-                var query = field.GetValue(null); //FIXME: ensure it's a Query<T>
+                if (!field.FieldType.IsConstructedGenericType || field.FieldType.GetGenericTypeDefinition() != typeof(Query<>))
+                    continue;
+                var query = field.GetValue(null);
                 if (query != null && field.FieldType.IsConstructedGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(Query<>))
                 {
                     var attr = field.GetCustomAttributes<QueryParamAttribute>()
