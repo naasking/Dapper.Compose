@@ -169,7 +169,7 @@ viewing page as follows:
 				});
 
 The _ parameter corresponds to the `select @@ROWCOUNT` line in the
-MarkNoteRead query, which isn't typically used so it's just discarded.
+MarkEmailRead query, which isn't typically used so it's just discarded.
 
 Here you can see how you can combine sequences of sophisticated queries
 so you only need one round-trip to the server.
