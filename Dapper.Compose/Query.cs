@@ -344,6 +344,9 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
         /// Get the runnable queries embedded in a given type's assembly.
         /// </summary>
         /// <returns>The list of queries embedded in the assembly.</returns>
+        /// <remarks>
+        /// The key is the runnable file name, the value is the embedded SQL.
+        /// </remarks>
         public static IEnumerable<KeyValuePair<string, string>> GetRunnable(Type type)
         {
             var asm = type.GetTypeInfo().Assembly;
