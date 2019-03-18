@@ -116,6 +116,64 @@ Shout out to [QueryFirst](https://github.com/bbsimonbb/query-first) for inspirin
 this idea. That project will be a promising solution once it develops a
 little more.
 
+# Including Updates in a Query
+
+This library primarily deals with queries that return results, but updates don't
+actually return results so that makes them difficult to compose like other queries.
+
+For example, suppose you're writing some kind of email front-end that needs to
+return the list of unread messages to show some useful links on the toolbar.
+However, viewing an individual message should actually mark that message as
+read so it's no longer in the list.
+
+Your query to return the list of unread messages might be something like:
+
+	--GetEmailSummaries: return list of unread messages
+	USE EmailDB
+	declare @userid int = 103
+
+	-- Dapper.Compose.Query
+	select N.Id, substring(N.Text, 1, 25) as Summary, N.Version as Date, N.Tag
+	from dbo.Emails_To X inner
+	join dbo.Emails N ON X.EmailId  = N.Id inner
+	join dbo.Users U ON U.EmailAddress = X.Address
+	where U.UserId = @userid and X.DateRead is null
+
+For the email viewing page, you'd combine it with an update query like this:
+
+	--MarkEmailRead: mark a note as read
+	USE EmailDB
+	declare @userId int = 103
+	declare @emailId int = 103
+
+	-- Dapper.Compose.Query
+	declare @email nvarchar(128) = (select EmailAddress from dbo.Users where UserId=@userId)
+
+	update N
+	set N.DateRead = GetDate()
+	from dbo.Emails_To N
+	where N.EmailId = @emailId and N.Address = @email
+
+	select @@ROWCOUNT
+
+And we might combine them all in code returning a view model for the message
+viewing page as follows:
+
+	static readonly Query<ReadEmailViewModel> getReadNote = Query.Combine(
+				GetAuthenticatedUserById, MarkEmailRead, GetEmailSummaries, GetEmailById,
+				(user, _, unread, current) => new ReadEmailViewModel
+				{
+					User = user,
+					Messages = unread,
+					Email = current,
+				});
+
+The _ parameter corresponds to the `select @@ROWCOUNT` line in the
+MarkNoteRead query, which isn't typically used so it's just discarded.
+
+Here you can see how you can combine sequences of sophisticated queries
+so you only need one round-trip to the server.
+
 # Validating Queries in Code
 
 Aside from the above query validation, you can also bind default query
