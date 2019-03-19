@@ -361,28 +361,34 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
                 }
             }
         }
-        
-        static readonly MethodInfo validate = new Action<IDbConnection, Query<int>, IDictionary<string, object>>(Validate<int>)
+
+        static readonly MethodInfo validate = new Action<IDbConnection, Query<int>, IDictionary<string, object>, IDbTransaction>(Validate<int>)
             .GetMethodInfo()
             .GetGenericMethodDefinition();
 
         /// <summary>
-        /// Iterate through <paramref name="type"/>'s static members and invoke any queries with
-        /// parameter bindings via <see cref="QueryParamAttribute"/>.
+        /// Run all tests available through <paramref name="type"/>:
+        /// * Iterate through <paramref name="type"/>'s static members and invoke any queries with
+        ///   parameter bindings via <see cref="QueryParamAttribute"/>.
+        /// * Execute any runnable queries embedded as resources.
         /// </summary>
         /// <param name="db">The database connection to use.</param>
         /// <param name="type">The type to inspect for queries.</param>
+        /// <param name="transaction">The transaction in which to execute.</param>
         /// <returns>The set of errors generated.</returns>
-        public static IEnumerable<KeyValuePair<string, Exception>> Validate(IDbConnection db, Type type)
+        public static IEnumerable<KeyValuePair<string, Exception>> Validate(IDbConnection db, Type type, IDbTransaction transaction = null)
         {
-            var args = new object[3];
+            var args = new object[4];
             args[0] = db;
+            args[3] = transaction ?? (transaction = db.BeginTransaction());
+            Exception e;
+            // run queries defined in fields
             foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
             {
                 if (!field.FieldType.IsConstructedGenericType || field.FieldType.GetGenericTypeDefinition() != typeof(Query<>))
                     continue;
                 var query = field.GetValue(null);
-                if (query != null && field.FieldType.IsConstructedGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(Query<>))
+                if (query != null)
                 {
                     var attr = field.GetCustomAttributes<QueryParamAttribute>()
                                     .ToDictionary(x => x.Name, x => x.Value);
@@ -390,7 +396,6 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
                     {
                         args[1] = query;
                         args[2] = attr;
-                        Exception e;
                         try
                         {
                             validate.MakeGenericMethod(field.FieldType.GetGenericArguments()[0])
@@ -405,12 +410,28 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
                     }
                 }
             }
+            // run all queries defined as embedded resoruces
+            foreach(var query in GetRunnable(type))
+            {
+                try
+                {
+                    db.Execute(query.Value, transaction: transaction);
+                    continue;
+                }
+                catch (Exception ex)
+                {
+                    e = ex;
+                }
+                yield return new KeyValuePair<string, Exception>(query.Key, e);
+            }
         }
 
-        static void Validate<T>(IDbConnection db, Query<T> query, IDictionary<string, object> param)
+        static void Validate<T>(IDbConnection db, Query<T> query, IDictionary<string, object> param, IDbTransaction transaction)
         {
             var cmd = db.CreateCommand();
             cmd.CommandText = query.Sql;
+            if (transaction != null)
+                cmd.Transaction = transaction;
             foreach (var x in param)
             {
                 var p = cmd.CreateParameter();

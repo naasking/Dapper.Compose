@@ -33,9 +33,12 @@ VALUES(
 
             foreach (var x in Query.Validate(db, typeof(Program)))
             {
-                Console.Error.WriteLine(x);
-                Console.Error.WriteLine("Press enter to continue...");
-                Console.ReadLine();
+                if (!x.Key.Equals("ComposeTests.Queries.GetEmployeeInvalid.sql"))
+                {
+                    Console.Error.WriteLine(x);
+                    Console.Error.WriteLine("Press enter to continue...");
+                    Console.ReadLine();
+                }
             }
         }
 
