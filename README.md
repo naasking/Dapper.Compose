@@ -185,12 +185,17 @@ parameter values via attributes. So given a static query class like:
 	    [QueryParam(nameof(Employee.EmployeeID), 3)]
 	    public static readonly Query<Employee> GetEmployeeById = Query.Single<Employee>(
 	        Query.Load<Employee>("ProjectName.Queries.GetEmployee.sql"));
+			
+	    // a runnable embedded query, see above: Query.GetRunnable<T>()
+	    public static readonly Query<int> CountEmployeeOrders = Query.Single<int>(
+	        Query.Load<Employee>("ProjectName.Queries.CountEmployeeOrders.sql"));
         ...
     }
 
 You can run all static members of a class bound like this via single call:
 
-    Query.Validate<Queries>(dbConnection);
+    // transaction is optional, but recommended
+    Query.Validate<Queries>(dbConnection, dbTransaction);
 
 This is useful for queries that accept types that are awkward to express in
 SQL, like arrays.

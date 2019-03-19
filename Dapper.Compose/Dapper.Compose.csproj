@@ -9,7 +9,8 @@
     <Copyright>Sandro Magi 2018</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/naasking/Dapper.Compose/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/naasking/Dapper.Compose</RepositoryUrl>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
