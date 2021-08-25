@@ -170,39 +170,91 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
             return new Query<List<T>>(Query<T>.List, Query<T>.ListAsync, sql);
         }
 
-        public static QueryFunc<string> Foo()
+        /// <summary>
+        /// A query function that transforms a single result.
+        /// </summary>
+        /// <typeparam name="T0">The input type.</typeparam>
+        /// <typeparam name="T1">The returned type.</typeparam>
+        /// <param name="sql">The SQL query to transform <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
+        /// <returns>A query function that can transform queries returning a single result.</returns>
+        public static QueryFunc<T0, T1> Single<T0, T1>(string sql)
         {
-            return new QueryFunc<string>("");
+            return new QueryFunc<T0, T1>(Query<T1>.Single, Query<T1>.SingleAsync, sql);
         }
 
-        public Query<List<T1>> Apply<T0, T1>(this QueryFunc<List<T0>> func, Query<List<T0>> query)
+        /// <summary>
+        /// A query function that transforms a single result.
+        /// </summary>
+        /// <typeparam name="T0">The input type.</typeparam>
+        /// <typeparam name="T1">The returned type.</typeparam>
+        /// <param name="sql">The SQL query to transform <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
+        /// <returns>A query function that can transform queries returning a single result.</returns>
+        public static QueryFunc<T0, T1> SingleOrDefault<T0, T1>(string sql)
         {
-
+            return new QueryFunc<T0, T1>(Query<T1>.SingleOrDefault, Query<T1>.SingleOrDefaultAsync, sql);
         }
 
-        ///// <summary>
-        ///// Create a query possibly returning a list of values.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="sql"></param>
-        ///// <param name="parameters"></param>
-        ///// <returns></returns>
-        //public static Query<IEnumerable<T>> Stream<T, T0>(string sql, Func<T, T0, T> map, string splitOn = "id")
-        //{
-        //    return new Query<IEnumerable<T>>(x => x.Read(map, splitOn), x => Task.FromResult(x.Read(map, splitOn)), sql);
-        //}
+        /// <summary>
+        /// A query function that transforms the first result.
+        /// </summary>
+        /// <typeparam name="T0">The input type.</typeparam>
+        /// <typeparam name="T1">The returned type.</typeparam>
+        /// <param name="sql">The SQL query to transform <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
+        /// <returns>A query function that can transform queries returning the first result.</returns>
+        public static QueryFunc<T0, T1> First<T0, T1>(string sql)
+        {
+            return new QueryFunc<T0, T1>(Query<T1>.First, Query<T1>.FirstAsync, sql);
+        }
 
-        ///// <summary>
-        ///// Create a query possibly returning a list of values.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="sql"></param>
-        ///// <param name="parameters"></param>
-        ///// <returns></returns>
-        //public static Query<IEnumerable<T>> Stream<T, T0, T1>(string sql, Func<T, T0, T1, T> map, string splitOn = "id")
-        //{
-        //    return new Query<IEnumerable<T>>(x => x.Read(map, splitOn), x => Task.FromResult(x.Read(map, splitOn)), sql);
-        //}
+        /// <summary>
+        /// A query function that transforms the first result.
+        /// </summary>
+        /// <typeparam name="T0">The input type.</typeparam>
+        /// <typeparam name="T1">The returned type.</typeparam>
+        /// <param name="sql">The SQL query to transform <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
+        /// <returns>A query function that can transform queries returning the first result.</returns>
+        public static QueryFunc<T0, T1> FirstOrDefault<T0, T1>(string sql)
+        {
+            return new QueryFunc<T0, T1>(Query<T1>.FirstOrDefault, Query<T1>.FirstOrDefaultAsync, sql);
+        }
+
+        /// <summary>
+        /// A query function that transforms a list of results.
+        /// </summary>
+        /// <typeparam name="T0">The input type.</typeparam>
+        /// <typeparam name="T1">The returned type.</typeparam>
+        /// <param name="sql">The SQL query to transform a list of type <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
+        /// <returns>A query function that can transform queries returning a list of results.</returns>
+        public static QueryFunc<List<T0>, List<T1>> List<T0, T1>(string sql)
+        {
+            return new QueryFunc<List<T0>, List<T1>>(Query<T1>.List, Query<T1>.ListAsync, sql);
+        }
+
+        public delegate T1 QueryF<T0, out T1>(Query<T0> query);
+
+        /// <summary>
+        /// A query function that transforms a list of results.
+        /// </summary>
+        /// <typeparam name="T0">The input type.</typeparam>
+        /// <typeparam name="T1">The returned type.</typeparam>
+        /// <param name="sql">The SQL query to transform a list of type <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
+        /// <returns>A query function that can transform queries returning a list of results.</returns>
+        public static Func<Query<List<T0>>, Query<List<T1>>> ListF<T0, T1>(string sql)
+        {
+            return q => new Query<List<T1>>(Query<T1>.List, Query<T1>.ListAsync, sql.Replace("--Dapper.Query.QueryFunc", q.Sql));
+        }
+
+        /// <summary>
+        /// A query function that transforms a list of results.
+        /// </summary>
+        /// <typeparam name="T0">The input type.</typeparam>
+        /// <typeparam name="T1">The returned type.</typeparam>
+        /// <param name="sql">The SQL query to transform a list of type <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
+        /// <returns>A query function that can transform queries returning a list of results.</returns>
+        public static Func<Query<List<T0>>, Query<T1>> SingleF<T0, T1>(string sql)
+        {
+            return q => new Query<T1>(Query<T1>.Single, Query<T1>.SingleAsync, sql.Replace("--Dapper.Query.QueryFunc", q.Sql));
+        }
 
         /// <summary>
         /// Load a query as an embedded resource.

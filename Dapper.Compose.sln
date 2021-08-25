@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Compose", "Dapper.Compose\Dapper.Compose.csproj", "{26304371-A28D-4942-89F2-86BDD898B7A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Compose", "Dapper.Compose\Dapper.Compose.csproj", "{26304371-A28D-4942-89F2-86BDD898B7A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComposeTests", "ComposeTests\ComposeTests.csproj", "{29454A3E-510B-4D79-A8C9-8C0046919FBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComposeTests", "ComposeTests\ComposeTests.csproj", "{29454A3E-510B-4D79-A8C9-8C0046919FBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

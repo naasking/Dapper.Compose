@@ -1,0 +1,85 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<# var count = 9; #>
+using System;
+using System.Data;
+using System.Threading.Tasks;
+
+namespace Dapper.Compose
+{
+<# for (var i = 1; i < count; ++i) { #>
+    /// <summary>
+    /// A query function.
+    /// </summary>
+<# for (int j = 0; j < i; ++j){#>
+    /// <typeparam name="T<#=j#>">The type constraint for query <#=j#>.</typeparam>
+<# } #>
+    /// <remarks>
+    /// This type of query function applies an SQL query to a SQL template of sorts, to generate a new SQL
+    /// query that returns a different type.
+    /// 
+    /// For instance, we could write a COUNT query function like so:
+    /// <code>
+    /// select count(*)
+    /// from(
+    ///   --Dapper.Compose.QueryFunc(0)
+    /// ) C
+    /// </code>
+    /// We load it as a QueryFunc&lt;object, int&gt;, an we can generate a COUNT(*) query for any
+    /// SQL query.
+    /// </remarks>
+    public struct QueryFunc<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>>
+    {
+        /// <summary>
+        /// Construct a new query function.
+        /// </summary>
+        /// <param name="read">The materializing function.</param>
+        /// <param name="readAsync">The async materializing function.</param>
+        /// <param name="sql">An SQL query.</param>
+        public QueryFunc(Func<SqlMapper.GridReader, T<#=i#>> read, Func<SqlMapper.GridReader, Task<T<#=i#>>> readAsync, string sql)
+        {
+            this.Sql = sql;
+            this.Read = read;
+            this.ReadAsync = readAsync;
+        }
+
+        /// <summary>
+        /// The SQL template.
+        /// </summary>
+        public string Sql { get; private set; }
+
+        /// <summary>
+        /// The function used to materialize the result from the reader.
+        /// </summary>
+        public Func<SqlMapper.GridReader, T<#=i#>> Read { get; private set; }
+
+        /// <summary>
+        /// The function used to asynchronously materialize the result from the reader.
+        /// </summary>
+        public Func<SqlMapper.GridReader, Task<T<#=i#>>> ReadAsync { get; private set; }
+
+        /// <summary>
+        /// Generate a new query
+        /// </summary>
+        /// <typeparam name="T">The type returned by the given query.</typeparam>
+        /// <param name="x">The query to transform.</param>
+        /// <returns>A new query with the given transformation applied.</returns>
+        public Query<T<#=i#>> Apply<TQuery0<# for (int j = 1; j < i; ++j){#>, TQuery<#=j#><# } #>>(Query<TQuery0> q0<# for (int j = 1; j < i; ++j){#>, Query<TQuery<#=j#>> q<#=j#><# } #>)
+<# for (int j = 0; j < i; ++j){#>
+            where TQuery<#=j#> : T<#=j#>
+<# } #>
+        {
+            var sql = Sql
+<# for (int j = 0; j < i; ++j){#>
+                         .Replace("--Dapper.Query.QueryFunc(<#=j#>)", q<#=j#>.Sql)
+<# } #>                         ;
+            return new Query<T<#=i#>>(Read, ReadAsync, sql);
+        }
+    }
+
+<# } #>
+}

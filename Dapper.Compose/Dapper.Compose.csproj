@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="QueryFunc.tt">
+      <LastGenOutput>QueryFunc.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Combine.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Combine.cs</LastGenOutput>
@@ -33,6 +37,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Combine.tt</DependentUpon>
+    </Compile>
+    <Compile Update="QueryFunc.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QueryFunc.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
