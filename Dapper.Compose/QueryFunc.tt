@@ -75,7 +75,7 @@ namespace Dapper.Compose
         {
             var sql = Sql
 <# for (int j = 0; j < i; ++j){#>
-                         .Replace("--Dapper.Query.QueryFunc(<#=j#>)", q<#=j#>.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(<#=j#>)", q<#=j#>.Sql)
 <# } #>                         ;
             return new Query<T<#=i#>>(Read, ReadAsync, sql);
         }

@@ -62,7 +62,7 @@ namespace Dapper.Compose
             where TQuery0 : T0
         {
             var sql = Sql
-                         .Replace("--Dapper.Query.QueryFunc(0)", q0.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(0)", q0.Sql)
                          ;
             return new Query<T1>(Read, ReadAsync, sql);
         }
@@ -128,8 +128,8 @@ namespace Dapper.Compose
             where TQuery1 : T1
         {
             var sql = Sql
-                         .Replace("--Dapper.Query.QueryFunc(0)", q0.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(1)", q1.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(0)", q0.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(1)", q1.Sql)
                          ;
             return new Query<T2>(Read, ReadAsync, sql);
         }
@@ -197,9 +197,9 @@ namespace Dapper.Compose
             where TQuery2 : T2
         {
             var sql = Sql
-                         .Replace("--Dapper.Query.QueryFunc(0)", q0.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(1)", q1.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(2)", q2.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(0)", q0.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(1)", q1.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(2)", q2.Sql)
                          ;
             return new Query<T3>(Read, ReadAsync, sql);
         }
@@ -269,10 +269,10 @@ namespace Dapper.Compose
             where TQuery3 : T3
         {
             var sql = Sql
-                         .Replace("--Dapper.Query.QueryFunc(0)", q0.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(1)", q1.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(2)", q2.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(3)", q3.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(0)", q0.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(1)", q1.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(2)", q2.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(3)", q3.Sql)
                          ;
             return new Query<T4>(Read, ReadAsync, sql);
         }
@@ -344,11 +344,11 @@ namespace Dapper.Compose
             where TQuery4 : T4
         {
             var sql = Sql
-                         .Replace("--Dapper.Query.QueryFunc(0)", q0.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(1)", q1.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(2)", q2.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(3)", q3.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(4)", q4.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(0)", q0.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(1)", q1.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(2)", q2.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(3)", q3.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(4)", q4.Sql)
                          ;
             return new Query<T5>(Read, ReadAsync, sql);
         }
@@ -422,12 +422,12 @@ namespace Dapper.Compose
             where TQuery5 : T5
         {
             var sql = Sql
-                         .Replace("--Dapper.Query.QueryFunc(0)", q0.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(1)", q1.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(2)", q2.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(3)", q3.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(4)", q4.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(5)", q5.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(0)", q0.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(1)", q1.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(2)", q2.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(3)", q3.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(4)", q4.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(5)", q5.Sql)
                          ;
             return new Query<T6>(Read, ReadAsync, sql);
         }
@@ -503,13 +503,13 @@ namespace Dapper.Compose
             where TQuery6 : T6
         {
             var sql = Sql
-                         .Replace("--Dapper.Query.QueryFunc(0)", q0.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(1)", q1.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(2)", q2.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(3)", q3.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(4)", q4.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(5)", q5.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(6)", q6.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(0)", q0.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(1)", q1.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(2)", q2.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(3)", q3.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(4)", q4.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(5)", q5.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(6)", q6.Sql)
                          ;
             return new Query<T7>(Read, ReadAsync, sql);
         }
@@ -587,14 +587,14 @@ namespace Dapper.Compose
             where TQuery7 : T7
         {
             var sql = Sql
-                         .Replace("--Dapper.Query.QueryFunc(0)", q0.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(1)", q1.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(2)", q2.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(3)", q3.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(4)", q4.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(5)", q5.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(6)", q6.Sql)
-                         .Replace("--Dapper.Query.QueryFunc(7)", q7.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(0)", q0.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(1)", q1.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(2)", q2.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(3)", q3.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(4)", q4.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(5)", q5.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(6)", q6.Sql)
+                         .Replace("--Dapper.Compose.QueryFunc(7)", q7.Sql)
                          ;
             return new Query<T8>(Read, ReadAsync, sql);
         }

@@ -241,7 +241,7 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
         /// <returns>A query function that can transform queries returning a list of results.</returns>
         public static Func<Query<List<T0>>, Query<List<T1>>> ListF<T0, T1>(string sql)
         {
-            return q => new Query<List<T1>>(Query<T1>.List, Query<T1>.ListAsync, sql.Replace("--Dapper.Query.QueryFunc", q.Sql));
+            return q => new Query<List<T1>>(Query<T1>.List, Query<T1>.ListAsync, sql.Replace("--Dapper.Compose.QueryFunc", q.Sql));
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
         /// <returns>A query function that can transform queries returning a list of results.</returns>
         public static Func<Query<List<T0>>, Query<T1>> SingleF<T0, T1>(string sql)
         {
-            return q => new Query<T1>(Query<T1>.Single, Query<T1>.SingleAsync, sql.Replace("--Dapper.Query.QueryFunc", q.Sql));
+            return q => new Query<T1>(Query<T1>.Single, Query<T1>.SingleAsync, sql.Replace("--Dapper.Compose.QueryFunc", q.Sql));
         }
 
         /// <summary>
@@ -274,8 +274,29 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
         /// </remarks>
         public static string Load<T>(string resourceName)
         {
+            return Load(typeof(T).GetTypeInfo().Assembly, resourceName);
+        }
+
+        /// <summary>
+        /// Load a query as an embedded resource.
+        /// </summary>
+        /// <typeparam name="T">Any type whose assembly contains the embedded queries.</typeparam>
+        /// <param name="resourceName">The name of the embedded query.</param>
+        /// <returns>The embedded query.</returns>
+        /// <remarks>
+        /// Two formatted files are accepted:
+        /// 
+        /// 1. Plain files containing just the SQL needed (or line comments which are skipped)
+        /// 2. A structured file where the actually query appears after a line comment starting with "-- Dapper.Compose.Query".
+        /// 
+        /// The structured format permits testing embedded queries. For instance, you can place variable declarations
+        /// for all query parameters before the "-- Dapper.Compose.Query" line so that the file is actually fully
+        /// executable on its own. Then you can load all such resources and execute them in your unit tests.
+        /// </remarks>
+        public static string Load(Assembly assembly, string resourceName)
+        {
             int queryStart;
-            var sql = Load(typeof(T).GetTypeInfo().Assembly, resourceName, out queryStart);
+            var sql = Load(assembly, resourceName, out queryStart);
             return sql.ToString(queryStart, sql.Length - queryStart);
         }
 

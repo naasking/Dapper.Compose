@@ -60,7 +60,7 @@ namespace Dapper.Compose
         public Query<T> Apply<T>(Query<T> x)
             where T : T0
         {
-            return new Query<T>(x.Read, x.ReadAsync, Sql.Replace("--Dapper.Query.QueryFunc(0)", x.Sql));
+            return new Query<T>(x.Read, x.ReadAsync, Sql.Replace("--Dapper.Compose.QueryFunc(0)", x.Sql));
         }
     }
 }
