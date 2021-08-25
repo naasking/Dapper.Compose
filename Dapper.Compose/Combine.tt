@@ -24,9 +24,9 @@ namespace Dapper.Compose
 <# } #>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult>(Query<T0> q0<# for (int j = 1; j <= i; ++j){#>, Query<T<#=j#>> q<#=j#><# } #>, Func<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult>(Query<T0> q0<# for (int j = 1; j <= i; ++j){#>, Query<T<#=j#>> q<#=j#><# } #>, Func<T0<# for (int j = 1; j <= i; ++j){#>, T<#=j#><# } #>, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x)<# for (int j = 1; j <= i; ++j){#>, q<#=j#>.Read(x)<# } #>),
 				async x => selector(await q0.ReadAsync(x)<# for (int j = 1; j <= i; ++j){#>, await q<#=j#>.ReadAsync(x)<# } #>),
 				q0.Sql <# for (int j = 1; j <= i; ++j){#> + "\r\n" + q<#=j#>.Sql<# } #>);

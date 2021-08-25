@@ -14,9 +14,9 @@ namespace Dapper.Compose
         /// <param name="q1">Query #1 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, TResult>(Query<T0> q0, Query<T1> q1, Func<T0, T1, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, TResult>(Query<T0> q0, Query<T1> q1, Func<T0, T1, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql);
@@ -34,9 +34,9 @@ namespace Dapper.Compose
         /// <param name="q2">Query #2 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Func<T0, T1, T2, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Func<T0, T1, T2, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql);
@@ -56,9 +56,9 @@ namespace Dapper.Compose
         /// <param name="q3">Query #3 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Func<T0, T1, T2, T3, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Func<T0, T1, T2, T3, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql);
@@ -80,9 +80,9 @@ namespace Dapper.Compose
         /// <param name="q4">Query #4 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Func<T0, T1, T2, T3, T4, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Func<T0, T1, T2, T3, T4, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql);
@@ -106,9 +106,9 @@ namespace Dapper.Compose
         /// <param name="q5">Query #5 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Func<T0, T1, T2, T3, T4, T5, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Func<T0, T1, T2, T3, T4, T5, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql);
@@ -134,9 +134,9 @@ namespace Dapper.Compose
         /// <param name="q6">Query #6 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Func<T0, T1, T2, T3, T4, T5, T6, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Func<T0, T1, T2, T3, T4, T5, T6, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql);
@@ -164,9 +164,9 @@ namespace Dapper.Compose
         /// <param name="q7">Query #7 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Func<T0, T1, T2, T3, T4, T5, T6, T7, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Func<T0, T1, T2, T3, T4, T5, T6, T7, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql);
@@ -196,9 +196,9 @@ namespace Dapper.Compose
         /// <param name="q8">Query #8 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql);
@@ -230,9 +230,9 @@ namespace Dapper.Compose
         /// <param name="q9">Query #9 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql);
@@ -266,9 +266,9 @@ namespace Dapper.Compose
         /// <param name="q10">Query #10 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql);
@@ -304,9 +304,9 @@ namespace Dapper.Compose
         /// <param name="q11">Query #11 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql);
@@ -344,9 +344,9 @@ namespace Dapper.Compose
         /// <param name="q12">Query #12 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql);
@@ -386,9 +386,9 @@ namespace Dapper.Compose
         /// <param name="q13">Query #13 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql);
@@ -430,9 +430,9 @@ namespace Dapper.Compose
         /// <param name="q14">Query #14 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql);
@@ -476,9 +476,9 @@ namespace Dapper.Compose
         /// <param name="q15">Query #15 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql);
@@ -524,9 +524,9 @@ namespace Dapper.Compose
         /// <param name="q16">Query #16 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql);
@@ -574,9 +574,9 @@ namespace Dapper.Compose
         /// <param name="q17">Query #17 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql);
@@ -626,9 +626,9 @@ namespace Dapper.Compose
         /// <param name="q18">Query #18 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql);
@@ -680,9 +680,9 @@ namespace Dapper.Compose
         /// <param name="q19">Query #19 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql);
@@ -736,9 +736,9 @@ namespace Dapper.Compose
         /// <param name="q20">Query #20 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql);
@@ -794,9 +794,9 @@ namespace Dapper.Compose
         /// <param name="q21">Query #21 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql);
@@ -854,9 +854,9 @@ namespace Dapper.Compose
         /// <param name="q22">Query #22 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql);
@@ -916,9 +916,9 @@ namespace Dapper.Compose
         /// <param name="q23">Query #23 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql);
@@ -980,9 +980,9 @@ namespace Dapper.Compose
         /// <param name="q24">Query #24 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x), q24.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x), await q24.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql + "\r\n" + q24.Sql);
@@ -1046,9 +1046,9 @@ namespace Dapper.Compose
         /// <param name="q25">Query #25 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x), q24.Read(x), q25.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x), await q24.ReadAsync(x), await q25.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql + "\r\n" + q24.Sql + "\r\n" + q25.Sql);
@@ -1114,9 +1114,9 @@ namespace Dapper.Compose
         /// <param name="q26">Query #26 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x), q24.Read(x), q25.Read(x), q26.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x), await q24.ReadAsync(x), await q25.ReadAsync(x), await q26.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql + "\r\n" + q24.Sql + "\r\n" + q25.Sql + "\r\n" + q26.Sql);
@@ -1184,9 +1184,9 @@ namespace Dapper.Compose
         /// <param name="q27">Query #27 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x), q24.Read(x), q25.Read(x), q26.Read(x), q27.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x), await q24.ReadAsync(x), await q25.ReadAsync(x), await q26.ReadAsync(x), await q27.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql + "\r\n" + q24.Sql + "\r\n" + q25.Sql + "\r\n" + q26.Sql + "\r\n" + q27.Sql);
@@ -1256,9 +1256,9 @@ namespace Dapper.Compose
         /// <param name="q28">Query #28 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Query<T28> q28, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Query<T28> q28, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x), q24.Read(x), q25.Read(x), q26.Read(x), q27.Read(x), q28.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x), await q24.ReadAsync(x), await q25.ReadAsync(x), await q26.ReadAsync(x), await q27.ReadAsync(x), await q28.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql + "\r\n" + q24.Sql + "\r\n" + q25.Sql + "\r\n" + q26.Sql + "\r\n" + q27.Sql + "\r\n" + q28.Sql);
@@ -1330,9 +1330,9 @@ namespace Dapper.Compose
         /// <param name="q29">Query #29 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Query<T28> q28, Query<T29> q29, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Query<T28> q28, Query<T29> q29, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x), q24.Read(x), q25.Read(x), q26.Read(x), q27.Read(x), q28.Read(x), q29.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x), await q24.ReadAsync(x), await q25.ReadAsync(x), await q26.ReadAsync(x), await q27.ReadAsync(x), await q28.ReadAsync(x), await q29.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql + "\r\n" + q24.Sql + "\r\n" + q25.Sql + "\r\n" + q26.Sql + "\r\n" + q27.Sql + "\r\n" + q28.Sql + "\r\n" + q29.Sql);
@@ -1406,9 +1406,9 @@ namespace Dapper.Compose
         /// <param name="q30">Query #30 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Query<T28> q28, Query<T29> q29, Query<T30> q30, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Query<T28> q28, Query<T29> q29, Query<T30> q30, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x), q24.Read(x), q25.Read(x), q26.Read(x), q27.Read(x), q28.Read(x), q29.Read(x), q30.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x), await q24.ReadAsync(x), await q25.ReadAsync(x), await q26.ReadAsync(x), await q27.ReadAsync(x), await q28.ReadAsync(x), await q29.ReadAsync(x), await q30.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql + "\r\n" + q24.Sql + "\r\n" + q25.Sql + "\r\n" + q26.Sql + "\r\n" + q27.Sql + "\r\n" + q28.Sql + "\r\n" + q29.Sql + "\r\n" + q30.Sql);
@@ -1484,9 +1484,9 @@ namespace Dapper.Compose
         /// <param name="q31">Query #31 in the multiquery.</param>
         /// <typeparam name="TResult">The final return.</typeparam>
         /// <returns>A value constructed from the various subqueries.</returns>
-        public static Query<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Query<T28> q28, Query<T29> q29, Query<T30> q30, Query<T31> q31, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, TResult> selector)
+        public static MultiQuery<TResult> Combine<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, TResult>(Query<T0> q0, Query<T1> q1, Query<T2> q2, Query<T3> q3, Query<T4> q4, Query<T5> q5, Query<T6> q6, Query<T7> q7, Query<T8> q8, Query<T9> q9, Query<T10> q10, Query<T11> q11, Query<T12> q12, Query<T13> q13, Query<T14> q14, Query<T15> q15, Query<T16> q16, Query<T17> q17, Query<T18> q18, Query<T19> q19, Query<T20> q20, Query<T21> q21, Query<T22> q22, Query<T23> q23, Query<T24> q24, Query<T25> q25, Query<T26> q26, Query<T27> q27, Query<T28> q28, Query<T29> q29, Query<T30> q30, Query<T31> q31, Func<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, TResult> selector)
         {
-            return new Query<TResult>(
+            return new MultiQuery<TResult>(
 				x => selector(q0.Read(x), q1.Read(x), q2.Read(x), q3.Read(x), q4.Read(x), q5.Read(x), q6.Read(x), q7.Read(x), q8.Read(x), q9.Read(x), q10.Read(x), q11.Read(x), q12.Read(x), q13.Read(x), q14.Read(x), q15.Read(x), q16.Read(x), q17.Read(x), q18.Read(x), q19.Read(x), q20.Read(x), q21.Read(x), q22.Read(x), q23.Read(x), q24.Read(x), q25.Read(x), q26.Read(x), q27.Read(x), q28.Read(x), q29.Read(x), q30.Read(x), q31.Read(x)),
 				async x => selector(await q0.ReadAsync(x), await q1.ReadAsync(x), await q2.ReadAsync(x), await q3.ReadAsync(x), await q4.ReadAsync(x), await q5.ReadAsync(x), await q6.ReadAsync(x), await q7.ReadAsync(x), await q8.ReadAsync(x), await q9.ReadAsync(x), await q10.ReadAsync(x), await q11.ReadAsync(x), await q12.ReadAsync(x), await q13.ReadAsync(x), await q14.ReadAsync(x), await q15.ReadAsync(x), await q16.ReadAsync(x), await q17.ReadAsync(x), await q18.ReadAsync(x), await q19.ReadAsync(x), await q20.ReadAsync(x), await q21.ReadAsync(x), await q22.ReadAsync(x), await q23.ReadAsync(x), await q24.ReadAsync(x), await q25.ReadAsync(x), await q26.ReadAsync(x), await q27.ReadAsync(x), await q28.ReadAsync(x), await q29.ReadAsync(x), await q30.ReadAsync(x), await q31.ReadAsync(x)),
 				q0.Sql  + "\r\n" + q1.Sql + "\r\n" + q2.Sql + "\r\n" + q3.Sql + "\r\n" + q4.Sql + "\r\n" + q5.Sql + "\r\n" + q6.Sql + "\r\n" + q7.Sql + "\r\n" + q8.Sql + "\r\n" + q9.Sql + "\r\n" + q10.Sql + "\r\n" + q11.Sql + "\r\n" + q12.Sql + "\r\n" + q13.Sql + "\r\n" + q14.Sql + "\r\n" + q15.Sql + "\r\n" + q16.Sql + "\r\n" + q17.Sql + "\r\n" + q18.Sql + "\r\n" + q19.Sql + "\r\n" + q20.Sql + "\r\n" + q21.Sql + "\r\n" + q22.Sql + "\r\n" + q23.Sql + "\r\n" + q24.Sql + "\r\n" + q25.Sql + "\r\n" + q26.Sql + "\r\n" + q27.Sql + "\r\n" + q28.Sql + "\r\n" + q29.Sql + "\r\n" + q30.Sql + "\r\n" + q31.Sql);

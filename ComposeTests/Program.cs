@@ -62,7 +62,7 @@ VALUES(
         [QueryParam(nameof(Employee.EmployeeID), 3)]
         static Query<List<Order>> getEmployeeOrders = Query.List<Order>(@"select ROW_NUMBER() over (order by OrderID) as Row, OrderID, OrderDate, EmployeeID from Orders where EmployeeId = @employeeID");
         [QueryParam(nameof(Order.EmployeeID), 3)]
-        static Query<EmployeeOrders> getEmployeeAndOrders;
+        static MultiQuery<EmployeeOrders> getEmployeeAndOrders;
         
         // dummy static members
         static int foo;
