@@ -230,32 +230,6 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
             return new QueryFunc<List<T0>, List<T1>>(Query<T1>.List, Query<T1>.ListAsync, sql);
         }
 
-        public delegate T1 QueryF<T0, out T1>(Query<T0> query);
-
-        /// <summary>
-        /// A query function that transforms a list of results.
-        /// </summary>
-        /// <typeparam name="T0">The input type.</typeparam>
-        /// <typeparam name="T1">The returned type.</typeparam>
-        /// <param name="sql">The SQL query to transform a list of type <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
-        /// <returns>A query function that can transform queries returning a list of results.</returns>
-        public static Func<Query<List<T0>>, Query<List<T1>>> ListF<T0, T1>(string sql)
-        {
-            return q => new Query<List<T1>>(Query<T1>.List, Query<T1>.ListAsync, sql.Replace("--Dapper.Compose.QueryFunc", q.Sql));
-        }
-
-        /// <summary>
-        /// A query function that transforms a list of results.
-        /// </summary>
-        /// <typeparam name="T0">The input type.</typeparam>
-        /// <typeparam name="T1">The returned type.</typeparam>
-        /// <param name="sql">The SQL query to transform a list of type <typeparamref name="T0"/> to <typeparamref name="T1"/>.</param>
-        /// <returns>A query function that can transform queries returning a list of results.</returns>
-        public static Func<Query<List<T0>>, Query<T1>> SingleF<T0, T1>(string sql)
-        {
-            return q => new Query<T1>(Query<T1>.Single, Query<T1>.SingleAsync, sql.Replace("--Dapper.Compose.QueryFunc", q.Sql));
-        }
-
         /// <summary>
         /// Load a query as an embedded resource.
         /// </summary>
@@ -302,9 +276,14 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
 
         static StringBuilder Load(Assembly asm, string resourceName, out int queryStart)
         {
+            if (string.IsNullOrEmpty(resourceName))
+                throw new ArgumentNullException(nameof(resourceName));
             var buf = new StringBuilder();
             queryStart = 0;
-            using (var stream = new StreamReader(asm.GetManifestResourceStream(resourceName)))
+            var resource = asm.GetManifestResourceStream(resourceName);
+            if (resource == null)
+                throw new ArgumentNullException(nameof(resourceName), $"The resource {resourceName} could not be found.");
+            using (var stream = new StreamReader(resource))
             {
                 while (!stream.EndOfStream)
                 {
