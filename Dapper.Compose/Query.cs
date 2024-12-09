@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Data;
+using System.Collections;
 
 namespace Dapper.Compose
 {
@@ -259,6 +260,136 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
         {
             return new Query<List<T>>(Query<T>.List, Query<T>.ListAsync, sql);
         }
+
+        /// <summary>
+        /// A general collection query.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TCollection"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="add"></param>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static Query<TCollection> Collection<T, TCollection>(Func<TCollection> create, Action<TCollection, T> add, string sql)
+        {
+            return new Query<TCollection>(reader =>
+            {
+                var collection = create();
+                while (!reader.IsConsumed)
+                    add(collection, reader.ReadSingle<T>());
+                return collection;
+            }, async reader =>
+            {
+                var collection = create();
+                while (!reader.IsConsumed)
+                    add(collection, await reader.ReadSingleAsync<T>());
+                return collection;
+            }, sql);
+        }
+
+        /// <summary>
+        /// Create a query possibly returning a dictionary of values indexed by a key.
+        /// </summary>
+        /// <typeparam name="T">The type of elements being returned.</typeparam>
+        /// <typeparam name="K">The type of keys.</typeparam>
+        /// <param name="sql">The query to execute.</param>
+        /// <returns></returns>
+        public static Query<Dictionary<K, T>> Dictionary<K, T>(Func<T, K> getKey, string sql) =>
+            Dictionary(EqualityComparer<K>.Default, getKey, sql);
+
+        /// <summary>
+        /// Create a query possibly returning a hash set of values.
+        /// </summary>
+        /// <typeparam name="T">The type of elements being returned.</typeparam>
+        /// <param name="sql">The query to execute.</param>
+        /// <returns></returns>
+        public static Query<Dictionary<K, T>> Dictionary<K, T>(IEqualityComparer<K> comparer, Func<T, K> getKey, string sql) =>
+            Collection<T, Dictionary<K, T>>(
+                () => new Dictionary<K, T>(comparer),
+                (dict, x) => dict.Add(getKey(x), x), sql);
+
+        /// <summary>
+        /// Create a query possibly returning a dictionary of values indexed by a key.
+        /// </summary>
+        /// <typeparam name="T">The type of elements being returned.</typeparam>
+        /// <typeparam name="K">The type of keys.</typeparam>
+        /// <param name="sql">The query to execute.</param>
+        /// <returns></returns>
+        public static Query<SortedDictionary<K, T>> SortedDictionary<K, T>(Func<T, K> getKey, string sql) =>
+            SortedDictionary(Comparer<K>.Default, getKey, sql);
+
+        /// <summary>
+        /// Create a query possibly returning a hash set of values.
+        /// </summary>
+        /// <typeparam name="T">The type of elements being returned.</typeparam>
+        /// <param name="sql">The query to execute.</param>
+        /// <returns></returns>
+        public static Query<SortedDictionary<K, T>> SortedDictionary<K, T>(IComparer<K> comparer, Func<T, K> getKey, string sql) =>
+            Collection<T, SortedDictionary<K, T>>(
+                () => new SortedDictionary<K, T>(comparer),
+                (dict, x) => dict.Add(getKey(x), x), sql);
+
+        /// <summary>
+        /// Create a query possibly returning a hash set of values.
+        /// </summary>
+        /// <typeparam name="T">The type of elements being returned.</typeparam>
+        /// <param name="sql">The query to execute.</param>
+        /// <returns></returns>
+        public static Query<HashSet<T>> HashSet<T>(string sql) =>
+            HashSet(EqualityComparer<T>.Default, sql);
+
+        /// <summary>
+        /// Create a query possibly returning a dictionary of values indexed by a key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static Query<HashSet<T>> HashSet<T>(IEqualityComparer<T> comparer, string sql) =>
+            Collection<T, HashSet<T>>(
+                () => new HashSet<T>(comparer),
+                (dict, x) => dict.Add(x), sql);
+
+        /// <summary>
+        /// Create a query possibly returning a hash set of values.
+        /// </summary>
+        /// <typeparam name="T">The type of elements being returned.</typeparam>
+        /// <param name="sql">The query to execute.</param>
+        /// <returns></returns>
+        public static Query<SortedSet<T>> SortedSet<T>(string sql) =>
+            SortedSet(Comparer<T>.Default, sql);
+
+        /// <summary>
+        /// Create a query possibly returning a dictionary of values indexed by a key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static Query<SortedSet<T>> SortedSet<T>(IComparer<T> comparer, string sql) =>
+            Collection<T, SortedSet<T>>(
+                () => new SortedSet<T>(comparer),
+                (dict, x) => dict.Add(x), sql);
+
+        /// <summary>
+        /// Create a query possibly returning a dictionary of values indexed by a key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static Query<Stack<T>> Stack<T>(string sql) =>
+            Collection<T, Stack<T>>(
+                () => new Stack<T>(),
+                (stack, x) => stack.Push(x), sql);
+
+        /// <summary>
+        /// Create a query possibly returning a dictionary of values indexed by a key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static Query<Queue<T>> Queue<T>(string sql) =>
+            Collection<T, Queue<T>>(
+                () => new Queue<T>(),
+                (stack, x) => stack.Enqueue(x), sql);
 
         ///// <summary>
         ///// Create a query possibly returning a list of values.

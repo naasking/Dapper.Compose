@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Compose", "Dapper.Compose\Dapper.Compose.csproj", "{26304371-A28D-4942-89F2-86BDD898B7A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComposeTests", "ComposeTests\ComposeTests.csproj", "{29454A3E-510B-4D79-A8C9-8C0046919FBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComposeTests", "ComposeTests\ComposeTests.csproj", "{BA4813E0-E3C9-4200-8402-2697DF1E6492}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{26304371-A28D-4942-89F2-86BDD898B7A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26304371-A28D-4942-89F2-86BDD898B7A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26304371-A28D-4942-89F2-86BDD898B7A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29454A3E-510B-4D79-A8C9-8C0046919FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29454A3E-510B-4D79-A8C9-8C0046919FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29454A3E-510B-4D79-A8C9-8C0046919FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29454A3E-510B-4D79-A8C9-8C0046919FBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA4813E0-E3C9-4200-8402-2697DF1E6492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA4813E0-E3C9-4200-8402-2697DF1E6492}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA4813E0-E3C9-4200-8402-2697DF1E6492}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA4813E0-E3C9-4200-8402-2697DF1E6492}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

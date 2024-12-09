@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;netstandard2.0;net461;net472;net452</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net48;net471</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Sandro Magi</Authors>
     <Company>Sandro Magi</Company>
@@ -9,9 +9,19 @@
     <Copyright>Sandro Magi 2018</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/naasking/Dapper.Compose/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/naasking/Dapper.Compose</RepositoryUrl>
-    <Version>1.0.2</Version>
-    <FileVersion>1.0.0.2</FileVersion>
+    <Version>1.0.3</Version>
+    <FileVersion>1.0.0.3</FileVersion>
+    <PackageProjectUrl>https://github.com/naasking/Dapper.Compose</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Added broad set of collections, eg. dictionary, queue, hash set, etc.</PackageReleaseNotes>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="dapper" Version="1.50.4" />
