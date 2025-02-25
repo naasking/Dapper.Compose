@@ -275,14 +275,14 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
             return new Query<TCollection>(reader =>
             {
                 var collection = create();
-                while (!reader.IsConsumed)
-                    add(collection, reader.ReadSingle<T>());
+                foreach (var x in reader.Read<T>())
+                    add(collection, x);
                 return collection;
             }, async reader =>
             {
                 var collection = create();
-                while (!reader.IsConsumed)
-                    add(collection, await reader.ReadSingleAsync<T>());
+                foreach (var x in await reader.ReadAsync<T>())
+                    add(collection, x);
                 return collection;
             }, sql);
         }

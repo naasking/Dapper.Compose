@@ -47,6 +47,7 @@ VALUES(
             getEmployeeAndOrders = Query.Combine(getEmployee, getEmployeeOrders, (e, o) => new EmployeeOrders { Employee = e, Orders = o });
             TestPlainDapper(db);
             TestCombinedQueries(db);
+            TestHashSet(db);
 
             var t0 = TestPlainDapperAsync(db);
             t0.Wait();
@@ -159,6 +160,13 @@ VALUES(
                 return;
             }
             Debug.Assert(false);
+        }
+
+        static Query<HashSet<string>> suppliers = Query.HashSet<string>("select CompanyName from dbo.Suppliers");
+        static void TestHashSet(IDbConnection db)
+        {
+            var names = suppliers.Execute(db);
+            Debug.Assert(names.Count == 29);
         }
 
         static void CheckResults(Employee janet, IEnumerable<Order> orders)
