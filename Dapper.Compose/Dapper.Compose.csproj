@@ -6,11 +6,11 @@
     <Authors>Sandro Magi</Authors>
     <Company>Sandro Magi</Company>
     <Description>Typed multiquery composition for Dapper.</Description>
-    <Copyright>Sandro Magi 2018</Copyright>
+    <Copyright>Sandro Magi 2026</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/naasking/Dapper.Compose/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/naasking/Dapper.Compose</RepositoryUrl>
-    <Version>1.0.4</Version>
-    <FileVersion>1.0.0.4</FileVersion>
+    <Version>1.0.5</Version>
+    <FileVersion>1.0.0.5</FileVersion>
     <PackageProjectUrl>https://github.com/naasking/Dapper.Compose</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>Added broad set of collections, eg. dictionary, queue, hash set, etc.</PackageReleaseNotes>

@@ -82,10 +82,12 @@ namespace Dapper.Compose
         /// <param name="transaction">The transaction.</param>
         /// <param name="commandTimeout">The timeout to apply.</param>
         /// <param name="commandType">The command type.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The value resulting from executing this query against the database.</returns>
-        public async Task<T> ExecuteAsync(IDbConnection db, object param = null, IDbTransaction transaction = null, int? commandTimeout = default(int?), CommandType? commandType = default(CommandType?))
+        public async Task<T> ExecuteAsync(IDbConnection db, object param = null, IDbTransaction transaction = null, int? commandTimeout = default(int?), CommandType? commandType = default(CommandType?), CancellationToken cancellationToken = default)
         {
-            using (var results = await db.QueryMultipleAsync(Sql, param, transaction, commandTimeout, commandType))
+            var command = new CommandDefinition(Sql, param, transaction, commandTimeout, commandType, cancellationToken: cancellationToken);
+            using (var results = await db.QueryMultipleAsync(command).ConfigureAwait(false))
                 return await ReadAsync(results).ConfigureAwait(false);
         }
 
