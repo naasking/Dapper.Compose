@@ -144,7 +144,7 @@ namespace Dapper.Compose
         {
             try
             {
-                return await grid.ReadSingleAsync<TReturn>();
+                return await grid.ReadSingleAsync<TReturn>().ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -284,7 +284,7 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
             }, async reader =>
             {
                 var collection = create();
-                foreach (var x in await reader.ReadAsync<T>())
+                foreach (var x in await reader.ReadAsync<T>().ConfigureAwait(false))
                     add(collection, x);
                 return collection;
             }, sql);
@@ -515,52 +515,59 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
             var args = new object[4];
             args[0] = db;
             var localTx = transaction == null ? db.BeginTransaction() : null;
-            args[3] = transaction ?? (transaction = localTx);
-            Exception e;
-            // run queries defined in fields
-            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+            try
             {
-                if (!field.FieldType.IsConstructedGenericType || field.FieldType.GetGenericTypeDefinition() != typeof(Query<>))
-                    continue;
-                var query = field.GetValue(null);
-                if (query != null)
+                args[3] = transaction ?? (transaction = localTx);
+                Exception e;
+                // run queries defined in fields
+                foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
                 {
-                    var attr = field.GetCustomAttributes<QueryParamAttribute>()
-                                    .ToDictionary(x => x.Name, x => x.Value);
-                    if (attr.Count > 0)
+                    if (!field.FieldType.IsConstructedGenericType || field.FieldType.GetGenericTypeDefinition() != typeof(Query<>))
+                        continue;
+                    var query = field.GetValue(null);
+                    if (query != null)
                     {
-                        args[1] = query;
-                        args[2] = attr;
-                        try
+                        var attr = field.GetCustomAttributes<QueryParamAttribute>()
+                                        .ToDictionary(x => x.Name, x => x.Value);
+                        if (attr.Count > 0)
                         {
-                            validate.MakeGenericMethod(field.FieldType.GetGenericArguments()[0])
-                                    .Invoke(null, args);
-                            continue;
+                            args[1] = query;
+                            args[2] = attr;
+                            try
+                            {
+                                validate.MakeGenericMethod(field.FieldType.GetGenericArguments()[0])
+                                        .Invoke(null, args);
+                                continue;
+                            }
+                            catch (Exception ex)
+                            {
+                                e = ex;
+                            }
+                            yield return new KeyValuePair<string, Exception>(field.Name, e);
                         }
-                        catch (Exception ex)
-                        {
-                            e = ex;
-                        }
-                        yield return new KeyValuePair<string, Exception>(field.Name, e);
                     }
                 }
+                // run all queries defined as embedded resoruces
+                foreach (var query in GetRunnable(type))
+                {
+                    try
+                    {
+                        db.Execute(query.Value, transaction: transaction);
+                        continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        e = ex;
+                    }
+                    yield return new KeyValuePair<string, Exception>(query.Key, e);
+                }
             }
-            // run all queries defined as embedded resoruces
-            foreach(var query in GetRunnable(type))
+            finally
             {
-                try
-                {
-                    db.Execute(query.Value, transaction: transaction);
-                    continue;
-                }
-                catch (Exception ex)
-                {
-                    e = ex;
-                }
-                yield return new KeyValuePair<string, Exception>(query.Key, e);
+                // only dispose of the transaction if we created it
+                localTx?.Rollback();
+                localTx?.Dispose();
             }
-            // only dispose of the transaction if we created it
-            localTx?.Dispose();
         }
 
         static void Validate<T>(IDbConnection db, Query<T> query, IDictionary<string, object> param, IDbTransaction transaction)
