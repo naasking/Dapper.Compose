@@ -20,8 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="dapper" Version="1.50.4" />
+    <PackageReference Include="dapper" Version="2.1.66" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
   <ItemGroup>

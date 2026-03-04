@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +86,7 @@ namespace Dapper.Compose
         public async Task<T> ExecuteAsync(IDbConnection db, object param = null, IDbTransaction transaction = null, int? commandTimeout = default(int?), CommandType? commandType = default(CommandType?))
         {
             using (var results = await db.QueryMultipleAsync(Sql, param, transaction, commandTimeout, commandType))
-                return await ReadAsync(results);
+                return await ReadAsync(results).ConfigureAwait(false);
         }
 
         internal static readonly Func<SqlMapper.GridReader, T> Single = Query.ReadSingle<T>;
@@ -97,7 +98,7 @@ namespace Dapper.Compose
         internal static readonly Func<SqlMapper.GridReader, T> FirstOrDefault = Query.Reader<T, T>(nameof(SqlMapper.GridReader.ReadFirstOrDefault));
         internal static readonly Func<SqlMapper.GridReader, Task<T>> FirstOrDefaultAsync = Query.Reader<T, Task<T>>(nameof(SqlMapper.GridReader.ReadFirstOrDefaultAsync));
         internal static readonly Func<SqlMapper.GridReader, List<T>> List = x => x.Read<T>(true) as List<T>;
-        internal static readonly Func<SqlMapper.GridReader, Task<List<T>>> ListAsync = async x => await x.ReadAsync<T>(true) as List<T>;
+        internal static readonly Func<SqlMapper.GridReader, Task<List<T>>> ListAsync = async x => await (x.ReadAsync<T>(true).ConfigureAwait(false)) as List<T>;
     }
 
     /// <summary>
@@ -511,7 +512,8 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
         {
             var args = new object[4];
             args[0] = db;
-            args[3] = transaction ?? (transaction = db.BeginTransaction());
+            var localTx = transaction == null ? db.BeginTransaction() : null;
+            args[3] = transaction ?? (transaction = localTx);
             Exception e;
             // run queries defined in fields
             foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
@@ -555,6 +557,8 @@ where {r}.{rowColumn} between 1 + ({pageVar} - 1) * {pageSizeVar} and {pageVar} 
                 }
                 yield return new KeyValuePair<string, Exception>(query.Key, e);
             }
+            // only dispose of the transaction if we created it
+            localTx?.Dispose();
         }
 
         static void Validate<T>(IDbConnection db, Query<T> query, IDictionary<string, object> param, IDbTransaction transaction)

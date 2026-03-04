@@ -9,8 +9,8 @@
     <Copyright>Sandro Magi 2018</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/naasking/Dapper.Compose/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/naasking/Dapper.Compose</RepositoryUrl>
-    <Version>1.0.3</Version>
-    <FileVersion>1.0.0.3</FileVersion>
+    <Version>1.0.4</Version>
+    <FileVersion>1.0.0.4</FileVersion>
     <PackageProjectUrl>https://github.com/naasking/Dapper.Compose</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>Added broad set of collections, eg. dictionary, queue, hash set, etc.</PackageReleaseNotes>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="dapper" Version="1.50.4" />
+    <PackageReference Include="dapper" Version="2.1.66" />
   </ItemGroup>
 
   <ItemGroup>
